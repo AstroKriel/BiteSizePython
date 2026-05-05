@@ -5,23 +5,42 @@
 import numpy
 from numpy.typing import NDArray
 
-
 ##
 ## === FIELD STATS
 ##
 
 
-def compute_field_stats_as_tuple(field: NDArray) -> tuple:
-    return field.min(), numpy.percentile(field, 16), numpy.percentile(field, 50), numpy.percentile(field, 84), field.max()
+def compute_field_stats_as_tuple(
+    field: NDArray,
+) -> tuple:
+    min_value = field.min()
+    p16_value = numpy.percentile(field, 16)
+    p50_value = numpy.percentile(field, 50)
+    p84_value = numpy.percentile(field, 84)
+    max_value = field.max()
+    return (
+        min_value,
+        p16_value,
+        p50_value,
+        p84_value,
+        max_value,
+    )
 
 
-def compute_field_stats_as_dict(field: NDArray) -> dict:
+def compute_field_stats_as_dict(
+    field: NDArray,
+) -> dict:
+    min_value = field.min()
+    p16_value = numpy.percentile(field, 16)
+    p50_value = numpy.percentile(field, 50)
+    p84_value = numpy.percentile(field, 84)
+    max_value = field.max()
     return {
-        "min_value": float(field.min()),
-        "p16_value": float(numpy.percentile(field, 16)),
-        "p50_value": float(numpy.percentile(field, 50)),
-        "p84_value": float(numpy.percentile(field, 84)),
-        "max_value": float(field.max()),
+        "min_value": min_value,
+        "p16_value": p16_value,
+        "p50_value": p50_value,
+        "p84_value": p84_value,
+        "max_value": max_value,
     }
 
 
@@ -52,7 +71,7 @@ def main() -> None:
 
     ## --- dict: typo on access raises KeyError; but only at access time, not when the bug was introduced
     stats = compute_field_stats_as_dict(rho)
-    print(stats["p50_val"])  # uncomment to see KeyError
+    # print(stats["p50_val"])  # uncomment to see KeyError
 
 
 if __name__ == "__main__":

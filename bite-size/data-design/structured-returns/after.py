@@ -8,7 +8,6 @@ from typing import Any
 import numpy
 from numpy.typing import NDArray
 
-
 ##
 ## === FIELD STATS
 ##
@@ -28,7 +27,7 @@ class FieldStats:
         if not (self.min_value <= self.p16_value <= self.p50_value <= self.p84_value <= self.max_value):
             raise ValueError(
                 f"expected min_value <= p16_value <= p50_value <= p84_value <= max_value; "
-                f"got {self.min_value}, {self.p16_value}, {self.p50_value}, {self.p84_value}, {self.max_value}."
+                f"got {self.min_value}, {self.p16_value}, {self.p50_value}, {self.p84_value}, {self.max_value}.",
             )
 
     def print_summary(
@@ -50,12 +49,17 @@ class FieldStats:
 def compute_field_stats(
     field: NDArray[Any],
 ) -> FieldStats:
+    min_value = field.min()
+    p16_value = numpy.percentile(field, 16)
+    p50_value = numpy.percentile(field, 50)
+    p84_value = numpy.percentile(field, 84)
+    max_value = field.max()
     return FieldStats(
-        min_value=float(field.min()),
-        p16_value=float(numpy.percentile(field, 16)),
-        p50_value=float(numpy.percentile(field, 50)),
-        p84_value=float(numpy.percentile(field, 84)),
-        max_value=float(field.max()),
+        min_value=min_value,
+        p16_value=p16_value,
+        p50_value=p50_value,
+        p84_value=p84_value,
+        max_value=max_value,
     )
 
 
