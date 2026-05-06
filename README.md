@@ -4,7 +4,7 @@ Short demos (~5 min each). Vote for which thread you want to see.
 
 ---
 
-### Thread A: Building a Productive Repo
+### Building a Productive Repo
 
 - **`uv` for dependency management:** one command to manage your project and reproduce your entire environment
 - **`git` version control:** the git commands and workflows worth knowing
@@ -15,7 +15,7 @@ Short demos (~5 min each). Vote for which thread you want to see.
 
 ---
 
-### Thread B: Writing Better Functions
+### Writing Better Functions
 
 - **Keyword-only arguments:** never pass the wrong argument silently again
 - **Thinking functional:** keep functions focused on one job and testing becomes trivial
@@ -24,7 +24,7 @@ Short demos (~5 min each). Vote for which thread you want to see.
 
 ---
 
-### Thread C: Modelling Your Data
+### Modelling Your Data
 
 - **Structured returns:** named fields mean you never guess argument order, and you can catch typos at runtime
 - **How to name things:** the right name is worth more than any comment

@@ -24,7 +24,7 @@ stats.p50_val  # AttributeError immediately; a typo cannot silently return wrong
 
 ---
 
-## Supercharged: Immutability
+## Supercharge `dataclass` and make it immutabile
 
 Add `frozen=True` and the dataclass becomes immutable after construction. Fields cannot be overwritten by accident.
 
@@ -34,18 +34,12 @@ stats.p50_value = 0.0  # FrozenInstanceError; the object is read-only
 
 ---
 
-## Supercharged: Validation
+## Supercharge `dataclass` with validation checks
 
 Define `__post_init__` and it runs immediately after construction. Bad data is caught before the object is ever returned or used downstream.
 
 ---
 
-## Supercharged: Methods
+## Supercharged `dataclass` with attached methods
 
 A dataclass is still a class. Methods travel with the data wherever it goes; no passing fields around separately, no standalone helpers that take five arguments.
-
----
-
-## Supercharged: Type-Checker Aware
-
-Because the return type is a concrete named class, the type checker knows exactly which attributes exist. Tab completion and typo detection follow automatically. A `dict[str, float]` return gives the type checker nothing to work with.
