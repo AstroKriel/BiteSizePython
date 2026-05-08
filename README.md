@@ -1,4 +1,4 @@
-# Bite-Size Dev Tips
+# Bite-Size Python
 
 Short demos that are ~10 min each.
 
