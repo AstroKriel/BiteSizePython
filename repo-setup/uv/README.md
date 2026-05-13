@@ -116,7 +116,7 @@ If you use notebooks, start your session the same way:
 uv run jupyter lab
 ```
 
-This drops you straight into the project environment. No activation needed.
+This drops you straight into the project environment. No need to manually activate your environment and then launch your server.
 
 ### What uv created
 
