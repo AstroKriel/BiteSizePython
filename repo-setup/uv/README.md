@@ -110,13 +110,13 @@ uv run script.py
 
 No activate. No deactivate. No auditing your imports before you start. `uv` builds up the dependency list for you as you go, and once it runs, anyone with `uv` can clone or copy the folder and be running immediately.
 
-If you use notebooks, the environment still needs to be active before you launch. With `uv` this is one command:
+If you use notebooks, start your session the same way:
 
 ```sh
 uv run jupyter lab
 ```
 
-In VS Code, select the `.venv` kernel once in the kernel picker and you are set.
+This drops you straight into the project environment. No activation needed.
 
 ### What uv created
 
