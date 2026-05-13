@@ -6,7 +6,7 @@ One command replaces your entire environment setup. That is the trade.
 
 ## The script
 
-`script.py` depends on three packages. Copy it somewhere outside this repo so you can feel the problem it solves:
+`script.py` depends on three packages. Copy it somewhere outside this repo to feel the problem it solves:
 
 ```sh
 mkdir ~/Downloads/uv-demo
@@ -34,26 +34,29 @@ Move to a new machine or hand the script to a colleague and you start again from
 
 ## The uv way
 
-The dependencies are declared at the top of the script:
+Initialise a project and declare your dependencies once:
 
-```python
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "matplotlib",
-#   "numpy",
-#   "scipy",
-# ]
-# ///
+```sh
+uv init .
+uv add numpy scipy matplotlib
 ```
 
-`uv` reads this block, installs what is needed, and runs the script. One command, on any machine:
+Then run:
 
 ```sh
 uv run script.py
 ```
 
-No activate. No deactivate. No remembering what to install.
+No activate. No deactivate. No remembering what to install. Anyone with `uv` can clone or copy the folder and `uv run` works immediately.
+
+### What uv created
+
+| File | Purpose |
+|---|---|
+| `pyproject.toml` | Project name, Python version constraint, and dependencies |
+| `uv.lock` | Exact versions of every package. The environment is fully reproducible. |
+| `.python-version` | Pins the Python version for this project. |
+| `.venv/` | The virtual environment, created and managed by `uv`. You never touch it. |
 
 ---
 
@@ -63,4 +66,4 @@ No activate. No deactivate. No remembering what to install.
 
 ## Going further
 
-When your work grows beyond a single script, `uv init` sets up a full project structure and `uv add` manages dependencies going forward. The [uv docs](https://docs.astral.sh/uv/) are some of the best tooling documentation written.
+The [uv docs](https://docs.astral.sh/uv/) are some of the best tooling documentation written. Worth a read if you want to understand the internals or the full feature set.

@@ -1,12 +1,3 @@
-# /// script
-# requires-python = ">=3.11"
-# dependencies = [
-#   "matplotlib",
-#   "numpy",
-#   "scipy",
-# ]
-# ///
-
 ##
 ## === DEPENDENCIES
 ##
@@ -103,8 +94,9 @@ def main() -> None:
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.legend()
-    fig.savefig("output.png", dpi=150)
-    print(f"\t> saved: output.png")
+    fig_name = "output.png"
+    fig.savefig(fig_name, dpi=150)
+    print(f"\t> saved: {fig_name}")
 
 
 if __name__ == "__main__":
