@@ -10,6 +10,14 @@ from numpy.typing import NDArray
 from scipy.optimize import curve_fit
 
 ##
+## === CONSTANTS
+##
+
+TRUE_SLOPE = 2.5
+TRUE_INTERCEPT = 1.3
+NOISE_STD = 1.5
+
+##
 ## === FIT FUNCTION
 ##
 
@@ -74,9 +82,9 @@ class LineFit:
 def main() -> None:
     rng = numpy.random.default_rng(seed=0)
     x_values = numpy.linspace(start=0.0, stop=10.0, num=50)
-    y_values = 2.5 * x_values + 1.3 + rng.normal(
+    y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + rng.normal(
         loc=0.0,
-        scale=1.5,
+        scale=NOISE_STD,
         size=x_values.size,
     )
 
