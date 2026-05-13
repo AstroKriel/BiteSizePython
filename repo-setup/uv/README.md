@@ -18,7 +18,7 @@ cd ~/Downloads/uv-demo
 
 ## The old way
 
-Track your dependencies yourself. Remember which ones you need, install them, activate the environment, run the script, deactivate.
+You have been here before. Set up the environment, remember which packages you need, install them, run the script, tear it down.
 
 ```sh
 python3 -m venv .venv
@@ -28,26 +28,26 @@ python3 script.py
 deactivate
 ```
 
-Move to a new machine or hand the script to a colleague and you start again from memory.
+Move to a new machine or hand the script to a colleague, and you start again from memory.
 
 ---
 
 ## The uv way
 
-Initialise a project and declare your dependencies once:
+Declare your dependencies once and let `uv` handle the rest.
 
 ```sh
 uv init .
 uv add numpy scipy matplotlib
 ```
 
-Then run:
+Then:
 
 ```sh
 uv run script.py
 ```
 
-No activate. No deactivate. No remembering what to install. Anyone with `uv` can clone or copy the folder and `uv run` works immediately.
+No activate. No deactivate. No "wait, which packages did I need again?" Anyone with `uv` can clone or copy the folder and be running immediately.
 
 ### What uv created
 
