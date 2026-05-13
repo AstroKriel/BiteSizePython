@@ -6,11 +6,11 @@ One command replaces your entire environment setup. That is the trade.
 
 ## The script
 
-`analysis.py` depends on three packages. Copy it somewhere outside this repo so you can feel the problem it solves:
+`script.py` depends on three packages. Copy it somewhere outside this repo so you can feel the problem it solves:
 
 ```sh
 mkdir ~/Downloads/uv-demo
-cp analysis.py ~/Downloads/uv-demo/
+cp script.py ~/Downloads/uv-demo/
 cd ~/Downloads/uv-demo
 ```
 
@@ -24,7 +24,7 @@ Track your dependencies yourself. Remember which ones you need, install them, ac
 python3 -m venv .venv
 source .venv/bin/activate
 pip install numpy scipy matplotlib
-python3 analysis.py
+python3 script.py
 deactivate
 ```
 
@@ -50,7 +50,7 @@ The dependencies are declared at the top of the script:
 `uv` reads this block, installs what is needed, and runs the script. One command, on any machine:
 
 ```sh
-uv run analysis.py
+uv run script.py
 ```
 
 No activate. No deactivate. No remembering what to install.
