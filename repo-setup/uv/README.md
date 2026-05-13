@@ -1,6 +1,6 @@
 # uv
 
-One command replaces your entire environment setup. That is the trade.
+One command to rule them all. (Lord of the Rings, J.R.R. Tolkien)
 
 ---
 
