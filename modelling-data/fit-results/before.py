@@ -7,7 +7,7 @@ from numpy.typing import NDArray
 from scipy.optimize import curve_fit
 
 ##
-## === MODEL
+## === FIT FUNCTION
 ##
 
 
@@ -18,6 +18,7 @@ def linear_model(
 ) -> NDArray:
     return slope * x_values + intercept
 
+
 ##
 ## === MAIN
 ##
@@ -25,13 +26,18 @@ def linear_model(
 
 def main() -> None:
     rng = numpy.random.default_rng(seed=0)
-    x_values = numpy.linspace(0.0, 10.0, 50)
+    x_values = numpy.linspace(start=0.0, stop=10.0, num=50)
     y_values = 2.5 * x_values + 1.3 + rng.normal(
+        loc=0.0,
         scale=0.5,
         size=x_values.size,
     )
 
-    popt, pcov = curve_fit(linear_model, x_values, y_values)
+    popt, pcov = curve_fit(
+        f=linear_model,
+        xdata=x_values,
+        ydata=y_values,
+    )
     sigmas = numpy.sqrt(numpy.diag(pcov))
 
     ## popt[0]? popt[1]? you have to check the model signature every time
@@ -49,7 +55,6 @@ def main() -> None:
     slope_sigma = sigmas[0]
     print(f"\t> y = {slope:.3f} * x + {intercept:.3f}")
     print(f"\t> slope uncertainty: +/-{slope_sigma:.4f}")
-
 
 
 if __name__ == "__main__":

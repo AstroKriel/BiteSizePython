@@ -14,9 +14,9 @@ def compute_field_stats_as_tuple(
     field: NDArray,
 ) -> tuple:
     min_value = field.min()
-    p16_value = numpy.percentile(field, 16)
-    p50_value = numpy.percentile(field, 50)
-    p84_value = numpy.percentile(field, 84)
+    p16_value = numpy.percentile(field, q=16)
+    p50_value = numpy.percentile(field, q=50)
+    p84_value = numpy.percentile(field, q=84)
     max_value = field.max()
     return (
         min_value,
@@ -31,9 +31,9 @@ def compute_field_stats_as_dict(
     field: NDArray,
 ) -> dict:
     min_value = field.min()
-    p16_value = numpy.percentile(field, 16)
-    p50_value = numpy.percentile(field, 50)
-    p84_value = numpy.percentile(field, 84)
+    p16_value = numpy.percentile(field, q=16)
+    p50_value = numpy.percentile(field, q=50)
+    p84_value = numpy.percentile(field, q=84)
     max_value = field.max()
     return {
         "min_value": min_value,

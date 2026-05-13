@@ -68,7 +68,11 @@ def fit_line(
     x_values: NDArray,
     y_values: NDArray,
 ) -> LineFit:
-    popt, pcov = curve_fit(linear_model, x_values, y_values)
+    popt, pcov = curve_fit(
+        f=linear_model,
+        xdata=x_values,
+        ydata=y_values,
+    )
     sigmas = numpy.sqrt(numpy.diag(pcov))
     ## think about index order once, here, then never again
     return LineFit(
@@ -86,8 +90,9 @@ def fit_line(
 
 def main() -> None:
     rng = numpy.random.default_rng(seed=0)
-    x_values = numpy.linspace(0.0, 10.0, 50)
+    x_values = numpy.linspace(start=0.0, stop=10.0, num=50)
     y_values = 2.5 * x_values + 1.3 + rng.normal(
+        loc=0.0,
         scale=0.5,
         size=x_values.size,
     )
