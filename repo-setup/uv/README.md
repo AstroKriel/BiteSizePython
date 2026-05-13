@@ -1,89 +1,66 @@
 # uv
 
-The trade: type `uv run script.py` instead of `python3 script.py`. That is the entire cost.
+One command replaces your entire environment setup. That is the trade.
 
 ---
 
-## What you are trading away
+## The script
 
-The old setup, repeated on every machine and for every new colleague:
+`analysis.py` depends on three packages. Copy it somewhere outside this repo so you can feel the problem it solves:
+
+```sh
+mkdir ~/Downloads/uv-demo
+cp analysis.py ~/Downloads/uv-demo/
+cd ~/Downloads/uv-demo
+```
+
+---
+
+## The old way
+
+Track your dependencies yourself. Remember which ones you need, install them, activate the environment, run the script, deactivate.
 
 ```sh
 python3 -m venv .venv
 source .venv/bin/activate
-pip install numpy
-python3 before.py
+pip install numpy scipy matplotlib
+python3 analysis.py
 deactivate
 ```
 
-And when you move to a new machine or an HPC cluster, you start again from memory.
+Move to a new machine or hand the script to a colleague and you start again from memory.
 
 ---
 
-## What you get
+## The uv way
 
-Declare your dependencies once, alongside your code. `uv` creates the environment, installs the right versions, and runs your script on any machine with one command.
-
-- No activate, no deactivate
-- No "which packages did I need again?"
-- Clone the repo on a new machine and `uv run` works immediately
-
-> **Notebook users:** launch with `uv run jupyter lab` to drop straight into the project environment. In VS Code, select the `.venv` kernel once in the kernel picker. Either way, no manual activation needed.
-
----
-
-## For a standalone script
-
-Add a metadata block at the top. `uv` reads it and handles everything:
+The dependencies are declared at the top of the script:
 
 ```python
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
+#   "matplotlib",
 #   "numpy",
+#   "scipy",
 # ]
 # ///
 ```
 
-Then: `uv run after.py`
-
-See `before.py` and `after.py` for this in action.
-
----
-
-## For a project
-
-When your work grows beyond a single script, `uv init` sets up the structure and `uv add` manages your dependencies going forward:
+`uv` reads this block, installs what is needed, and runs the script. One command, on any machine:
 
 ```sh
-uv init my-project
-cd my-project
-uv add numpy pandas
 uv run analysis.py
 ```
 
-### The files
-
-| File | Purpose |
-|---|---|
-| `pyproject.toml` | Project name, Python version constraint, and dependencies |
-| `uv.lock` | Exact versions of every package. The environment is fully reproducible. |
-| `.python-version` | Pins the Python version (optional; can also live in `pyproject.toml`) |
-| `.venv/` | The virtual environment, created and managed by `uv`. You never touch it. |
+No activate. No deactivate. No remembering what to install.
 
 ---
 
-## Adopting on an existing project
-
-If you already have a project, two commands are enough:
-
-```sh
-uv init .
-uv add -r requirements.txt  # if you have one
-```
-
-From that point on, `uv run` works.
+> **Notebook users:** launch with `uv run jupyter lab` to drop straight into the project environment. In VS Code, select the `.venv` kernel once in the kernel picker. Either way, no manual activation needed.
 
 ---
 
-The [uv docs](https://docs.astral.sh/uv/) are some of the best tooling documentation written. Worth a read if you want to understand the internals or the full feature set.
+## Going further
+
+When your work grows beyond a single script, `uv init` sets up a full project structure and `uv add` manages dependencies going forward. The [uv docs](https://docs.astral.sh/uv/) are some of the best tooling documentation written.
