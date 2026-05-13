@@ -33,12 +33,11 @@ class FieldStats:
     def print_summary(
         self,
     ) -> None:
-        width = 6
-        print(f"  min: {self.min_value:{width}.3f}")
-        print(f"  p16: {self.p16_value:{width}.3f}")
-        print(f"  p50: {self.p50_value:{width}.3f}")
-        print(f"  p84: {self.p84_value:{width}.3f}")
-        print(f"  max: {self.max_value:{width}.3f}")
+        print(f"\t> min: {self.min_value:.3f}")
+        print(f"\t> p16: {self.p16_value:.3f}")
+        print(f"\t> p50: {self.p50_value:.3f}")
+        print(f"\t> p84: {self.p84_value:.3f}")
+        print(f"\t> max: {self.max_value:.3f}")
 
 
 ##
@@ -79,7 +78,7 @@ def main() -> None:
     ## everything is self-contained
     stats.print_summary()
     ## fields are named and unambiguous
-    print(stats.p16_value, stats.p84_value)
+    print(f"\t> {stats.p16_value}, {stats.p84_value}")
 
 
 if __name__ == "__main__":

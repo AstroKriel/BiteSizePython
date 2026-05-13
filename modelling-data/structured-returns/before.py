@@ -62,16 +62,16 @@ def main() -> None:
 
     ## --- tuple: what does index 2 mean?
     stats = compute_field_stats_as_tuple(rho)
-    print(stats[0], stats[2])
+    print(f"\t> {stats[0]}, {stats[2]}")
 
     ## --- dict: typo on assignment silently adds a wrong key; no error
     stats = compute_field_stats_as_dict(rho)
     stats["p50_val"] = 0.0
-    print(stats)
+    print(f"\t> {stats}")
 
     ## --- dict: typo on access raises KeyError; but only at access time, not when the bug was introduced
     stats = compute_field_stats_as_dict(rho)
-    # print(stats["p50_val"])  # uncomment to see KeyError
+    # print(f"\t> {stats['p50_val']}")  # uncomment to see KeyError
 
 
 if __name__ == "__main__":
