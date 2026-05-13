@@ -97,8 +97,8 @@ def main() -> None:
     y_fit = result.evaluate_at(x_values=x_values)
 
     fig, ax = plt.subplots()
-    ax.scatter(x_values, y_values, label="data", alpha=0.6)
-    ax.plot(x_values, y_fit, label="fit", color="tab:red")
+    ax.scatter(x_values, y_values, color="blue", label="data points", alpha=0.6)
+    ax.plot(x_values, y_fit, label="fit", color="red")
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.legend()
