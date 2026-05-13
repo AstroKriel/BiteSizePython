@@ -6,7 +6,7 @@ One command to rule them all. (Lord of the Rings, J.R.R. Tolkien)
 
 ## The script
 
-`script.py` depends on three packages. Copy it somewhere outside this repo to feel the problem it solves:
+Here we will work with a `script.py` that depends on three packages. Copy it somewhere outside this repo to feel the problem it solves:
 
 ```sh
 mkdir ~/Downloads/uv-demo
@@ -34,20 +34,35 @@ Move to a new machine or hand the script to a colleague, and you start again fro
 
 ## The uv way
 
-Declare your dependencies once and let `uv` handle the rest.
+You do not need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
 
 ```sh
 uv init .
-uv add numpy scipy matplotlib
+uv run script.py
+# ModuleNotFoundError: No module named 'numpy'
 ```
 
-Then:
+Add the missing package and try again:
 
 ```sh
+uv add numpy
 uv run script.py
+# ModuleNotFoundError: No module named 'scipy'
 ```
 
-No activate. No deactivate. No "wait, which packages did I need again?" Anyone with `uv` can clone or copy the folder and be running immediately.
+Repeat until it runs:
+
+```sh
+uv add scipy
+uv run script.py
+# ModuleNotFoundError: No module named 'matplotlib'
+
+uv add matplotlib
+uv run script.py
+# it works
+```
+
+No activate. No deactivate. No auditing your imports before you start. `uv` builds up the dependency list for you as you go, and once it runs, anyone with `uv` can clone or copy the folder and be running immediately.
 
 ### What uv created
 
