@@ -6,13 +6,7 @@ One command to rule them all. (Lord of the Rings, J.R.R. Tolkien)
 
 ## The script
 
-Here we will work with a `script.py` that depends on three packages. Copy it somewhere outside this repo to feel the problem it solves:
-
-```sh
-mkdir ~/Downloads/uv-demo
-cp script.py ~/Downloads/uv-demo/
-cd ~/Downloads/uv-demo
-```
+Here we will work with a `script.py` that depends on three packages. For now, we need not worry what these dependencies are - that is rather the point.
 
 ---
 
@@ -21,6 +15,10 @@ cd ~/Downloads/uv-demo
 You have been here before. Set up the environment, remember which packages you need, install them, run the script, tear it down.
 
 ```sh
+mkdir -p ~/Downloads/python-deps/manual
+cp script.py ~/Downloads/python-deps/manual/
+cd ~/Downloads/python-deps/manual
+
 python3 -m venv .venv
 source .venv/bin/activate
 pip install numpy scipy matplotlib
@@ -37,6 +35,10 @@ Move to a new machine or hand the script to a colleague, and you start again fro
 You do not need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
 
 ```sh
+mkdir -p ~/Downloads/python-deps/uv
+cp script.py ~/Downloads/python-deps/uv/
+cd ~/Downloads/python-deps/uv
+
 uv init .
 uv run script.py
 # ModuleNotFoundError: No module named 'numpy'
