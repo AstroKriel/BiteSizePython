@@ -5,4 +5,5 @@ description = "bite-size coding lessons"
 requires-python = ">=3.11"
 dependencies = [
     "numpy>=2.0",
+    "scipy>=1.17.1",
 ]
