@@ -46,10 +46,17 @@ Run the script:
 python3 script.py
 ```
 
-Deactivate when done:
+Deactivate the virtual environment when done:
 
 ```sh
 deactivate
+```
+
+If you use notebooks, the environment must be active before you launch:
+
+```sh
+source .venv/bin/activate
+jupyter lab
 ```
 
 Move to a new machine or hand the script to a colleague, and you start again from memory.
@@ -103,6 +110,14 @@ uv run script.py
 
 No activate. No deactivate. No auditing your imports before you start. `uv` builds up the dependency list for you as you go, and once it runs, anyone with `uv` can clone or copy the folder and be running immediately.
 
+If you use notebooks, the environment still needs to be active before you launch. With `uv` this is one command:
+
+```sh
+uv run jupyter lab
+```
+
+In VS Code, select the `.venv` kernel once in the kernel picker and you are set.
+
 ### What uv created
 
 | File | Purpose |
@@ -112,11 +127,6 @@ No activate. No deactivate. No auditing your imports before you start. `uv` buil
 | `.python-version` | Pins the Python version for this project. |
 | `.venv/` | The virtual environment, created and managed by `uv`. You never touch it. |
 
----
-
-> **Notebook users:** launch with `uv run jupyter lab` to drop straight into the project environment. In VS Code, select the `.venv` kernel once in the kernel picker. Either way, no manual activation needed.
-
----
 
 ## Going further
 
