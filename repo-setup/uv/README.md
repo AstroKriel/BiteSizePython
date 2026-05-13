@@ -6,7 +6,7 @@ One command to rule them all. (Lord of the Rings, J.R.R. Tolkien)
 
 ## The script
 
-Here we will work with a `script.py` that depends on three packages. For now, we need not worry what these dependencies are - that is rather the point.
+Here we will work with a `script.py` that depends on three packages. For now, we need not worry what these dependencies are. That is rather the point.
 
 ---
 
