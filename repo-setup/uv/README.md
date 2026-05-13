@@ -14,15 +14,41 @@ Here we will work with a `script.py` that depends on three packages. For now, we
 
 You have been here before. Set up the environment, remember which packages you need, install them, run the script, tear it down.
 
+Make a folder and copy the script into it:
+
 ```sh
 mkdir -p ~/Downloads/python-deps/manual
 cp script.py ~/Downloads/python-deps/manual/
 cd ~/Downloads/python-deps/manual
+```
 
+Create a virtual environment:
+
+```sh
 python3 -m venv .venv
+```
+
+Activate it:
+
+```sh
 source .venv/bin/activate
+```
+
+Install the dependencies you need to remember:
+
+```sh
 pip install numpy scipy matplotlib
+```
+
+Run the script:
+
+```sh
 python3 script.py
+```
+
+Deactivate when done:
+
+```sh
 deactivate
 ```
 
@@ -34,12 +60,23 @@ Move to a new machine or hand the script to a colleague, and you start again fro
 
 You do not need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
 
+Make a folder and copy the script into it:
+
 ```sh
 mkdir -p ~/Downloads/python-deps/uv
 cp script.py ~/Downloads/python-deps/uv/
 cd ~/Downloads/python-deps/uv
+```
 
+Initialise a uv project:
+
+```sh
 uv init .
+```
+
+Try running. `uv` will tell you what is missing:
+
+```sh
 uv run script.py
 # ModuleNotFoundError: No module named 'numpy'
 ```
