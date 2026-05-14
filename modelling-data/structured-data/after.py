@@ -49,7 +49,7 @@ class DataSeries:
                 f"x_values and y_values must have the same length; "
                 f"got {len(self.x_values)} and {len(self.y_values)}.",
             )
-        if self.y_sigmas is not None and len(self.y_sigmas) != len(self.x_values):
+        if self.y_sigmas is not None and (len(self.y_sigmas) != len(self.x_values)):
             raise ValueError(
                 f"y_sigmas must have the same length as x_values; "
                 f"got {len(self.y_sigmas)} and {len(self.x_values)}.",
@@ -63,10 +63,12 @@ class DataSeries:
 
 @dataclass(frozen=True)
 class LineFit:
+    data_series: DataSeries
     slope: float
     intercept: float
     slope_sigma: float
     intercept_sigma: float
+    rms_residual: float
 
     @classmethod
     def from_fit(
@@ -81,11 +83,15 @@ class LineFit:
         )
         sigmas = numpy.sqrt(numpy.diag(pcov))
         ## think about index order once, here, then never again
+        y_fit = popt[0] * data_series.x_values + popt[1]
+        rms_residual = float(numpy.sqrt(numpy.mean((data_series.y_values - y_fit)**2)))
         return cls(
+            data_series=data_series,
             slope=popt[0],
             intercept=popt[1],
             slope_sigma=sigmas[0],
             intercept_sigma=sigmas[1],
+            rms_residual=rms_residual,
         )
 
     def evaluate_at(
@@ -94,23 +100,17 @@ class LineFit:
     ) -> NDArray:
         return self.slope * x_values + self.intercept
 
+    def compute_residuals(
+        self,
+    ) -> NDArray:
+        return self.data_series.y_values - self.evaluate_at(self.data_series.x_values)
+
     def print_summary(
         self,
     ) -> None:
         print(f"\t> slope: {self.slope:.4f} +/- {self.slope_sigma:.4f}")
         print(f"\t> intercept: {self.intercept:.4f} +/- {self.intercept_sigma:.4f}")
-
-    def compute_residuals(
-        self,
-        data_series: DataSeries,
-    ) -> NDArray:
-        return data_series.y_values - self.evaluate_at(data_series.x_values)
-
-    def rms_residual(
-        self,
-        data_series: DataSeries,
-    ) -> float:
-        return float(numpy.sqrt(numpy.mean(self.compute_residuals(data_series=data_series) ** 2)))
+        print(f"\t> rms residual: {self.rms_residual:.4f}")
 
 
 ##
@@ -120,17 +120,22 @@ class LineFit:
 
 def main() -> None:
     rng = numpy.random.default_rng(seed=0)
-    x_values = numpy.linspace(start=0.0, stop=10.0, num=50)
+    x_values = numpy.linspace(
+        start=0.0,
+        stop=10.0,
+        num=50,
+    )
     y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + rng.normal(
         loc=0.0,
         scale=NOISE_STD,
         size=x_values.size,
     )
-
-    data_series = DataSeries(x_values=x_values, y_values=y_values)
+    data_series = DataSeries(
+        x_values=x_values,
+        y_values=y_values,
+    )
     result = LineFit.from_fit(data_series=data_series)
     result.print_summary()
-    print(f"\t> rms residual: {result.rms_residual(data_series=data_series):.4f}")
     print(f"\t> first fitted value: {result.evaluate_at(x_values=x_values)[0]:.4f}")
 
 

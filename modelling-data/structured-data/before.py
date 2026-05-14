@@ -34,7 +34,11 @@ def linear_model(
 
 def main() -> None:
     rng = numpy.random.default_rng(seed=0)
-    x_values = numpy.linspace(start=0.0, stop=10.0, num=50)
+    x_values = numpy.linspace(
+        start=0.0,
+        stop=10.0,
+        num=50,
+    )
     y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + rng.normal(
         loc=0.0,
         scale=NOISE_STD,
@@ -51,8 +55,8 @@ def main() -> None:
     print(f"\t> intercept: {popt[1]:.4f} +/- {sigmas[1]:.4f}")
     ## passing raw arrays around: every callsite carries the same index knowledge
     y_fit = popt[0] * x_values + popt[1]
-    rms = float(numpy.sqrt(numpy.mean((y_values - y_fit) ** 2)))
-    print(f"\t> rms residual: {rms:.4f}")
+    rms_value = float(numpy.sqrt(numpy.mean((y_values - y_fit)**2)))
+    print(f"\t> rms residual: {rms_value:.4f}")
 
 
 if __name__ == "__main__":
