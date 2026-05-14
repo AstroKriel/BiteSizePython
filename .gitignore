@@ -5,3 +5,7 @@ __pycache__/
 
 ## generated outputs
 *.png
+
+## uv lesson working directories
+repo-setup/uv/manual/
+repo-setup/uv/uv/

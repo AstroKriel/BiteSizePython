@@ -1,6 +1,6 @@
 # uv
 
-One command to rule them all. (Lord of the Rings, J.R.R. Tolkien)
+One command to rule them all.
 
 ---
 
@@ -17,9 +17,9 @@ You have been here before. Set up the environment, remember which packages you n
 Make a folder and copy the script into it:
 
 ```sh
-mkdir -p ~/Downloads/python-deps/manual
-cp script.py ~/Downloads/python-deps/manual/
-cd ~/Downloads/python-deps/manual
+mkdir manual
+cp script.py manual/
+cd manual
 ```
 
 Create a virtual environment:
@@ -70,9 +70,9 @@ You do not need to know your dependencies upfront. Start the project and let `uv
 Make a folder and copy the script into it:
 
 ```sh
-mkdir -p ~/Downloads/python-deps/uv
-cp script.py ~/Downloads/python-deps/uv/
-cd ~/Downloads/python-deps/uv
+mkdir uv
+cp script.py uv/
+cd uv
 ```
 
 Initialise a uv project:
@@ -120,14 +120,15 @@ This drops you straight into the project environment. No need to manually activa
 
 ### What uv created
 
-| File | Purpose |
-|---|---|
-| `pyproject.toml` | Project name, Python version constraint, and dependencies |
-| `uv.lock` | Exact versions of every package. The environment is fully reproducible. |
-| `.python-version` | Pins the Python version for this project. |
-| `.venv/` | The virtual environment, created and managed by `uv`. You never touch it. |
+`pyproject.toml` declares your project's name and dependencies. `uv add` and `uv remove` keep the list of third-party dependencies up to date, so you rarely need to edit this file by hand.
+
+`uv.lock` contains the completely resolved dependency tree: your dependencies and all of their sub-dependencies, each pinned to an exact version. `uv` negotiates all of these versions for you, finding a combination that satisfies every constraint. You can be as specific or as loose as you like with version requirements, and it will work out what is compatible. Anyone with `uv` can use this file to reproduce your exact environment.
+
+`.python-version` pins the Python version for this project, so the same interpreter is used everywhere.
+
+`.venv/` is the virtual environment, created and managed by `uv`. You never need to or ever should touch it directly.
 
 
 ## Going further
 
-The [uv docs](https://docs.astral.sh/uv/) are some of the best tooling documentation written. Worth a read if you want to understand the internals or the full feature set.
+The [uv docs](https://docs.astral.sh/uv/) provides a comprehensive overview of `uv` and the workflows it supports. It's worth a read! What we cover here is the basics, and useful core functionality, but `uv` can do a lot more.
