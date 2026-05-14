@@ -49,4 +49,4 @@ A fit result is a fact about your data. It should not change after construction.
 
 ## At Scale
 
-This is exactly the pattern in jormi's `LinearFitSummary`. Models with more parameters (amplitude, centre, width, baseline) benefit even more. The index arithmetic happens once, in one place, and the rest of the codebase never sees it.
+Models with more parameters (amplitude, centre, width, baseline) benefit even more. The index arithmetic happens once, in one place, and the rest of the codebase never sees it.

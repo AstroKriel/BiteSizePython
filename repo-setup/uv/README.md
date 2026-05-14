@@ -14,7 +14,7 @@ Here we will work with a `script.py` that depends on three packages. For now, we
 
 You have been here before. Set up the environment, remember which packages you need, install them, run the script, tear it down.
 
-Make a folder and copy the script into it:
+From inside this lesson folder, make a subfolder and copy the script into it:
 
 ```sh
 mkdir manual
@@ -67,7 +67,7 @@ Move to a new machine or hand the script to a colleague, and you start again fro
 
 You do not need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
 
-Make a folder and copy the script into it:
+From inside this lesson folder, make a subfolder and copy the script into it:
 
 ```sh
 mkdir uv

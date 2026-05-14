@@ -24,7 +24,7 @@ stats.p50_val  # AttributeError immediately; a typo cannot silently return wrong
 
 ---
 
-## Supercharge `dataclass` and make it immutabile
+## Supercharge `dataclass` and make it immutable
 
 Add `frozen=True` and the dataclass becomes immutable after construction. Fields cannot be overwritten by accident.
 

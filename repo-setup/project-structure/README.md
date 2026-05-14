@@ -52,16 +52,14 @@ To make `src/` importable from your scripts, add a `[build-system]` block to you
 
 ```toml
 [tool.hatch.build.targets.wheel]
-packages = ["src/local_helpers"]
+packages = ["src/<package-name>"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 ```
 
-That's it.
-
-Here `[build-system]` tells `uv` how to make your local package importable. `uv run` picks it up automatically; no extra steps needed. `hatchling` is the right default: it is what `uv` uses out of the box and requires no configuration. `setuptools` and `distutils` are older options you may encounter in the wild, but they predate modern workflows and are not worth reaching for in new projects.
+`[build-system]` tells `uv` how to make your local package importable. `[tool.hatch.build.targets.wheel]` tells hatchling where to find it; replace `<package-name>` with the name of your folder inside `src/`. `uv run` picks it up automatically; no extra steps needed. `hatchling` is the right default: it is what `uv` uses out of the box and requires no configuration. `setuptools` and `distutils` are older options you may encounter in the wild, but they predate modern workflows and are not worth reaching for in new projects.
 
 ---
 
