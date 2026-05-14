@@ -40,18 +40,15 @@ def main() -> None:
         scale=NOISE_STD,
         size=x_values.size,
     )
-
     popt, pcov = curve_fit(
         f=linear_model,
         xdata=x_values,
         ydata=y_values,
     )
     sigmas = numpy.sqrt(numpy.diag(pcov))
-
     ## popt[0]? popt[1]? you have to check the model signature every time
     print(f"\t> slope: {popt[0]:.4f} +/- {sigmas[0]:.4f}")
     print(f"\t> intercept: {popt[1]:.4f} +/- {sigmas[1]:.4f}")
-
     ## passing raw arrays around: every callsite carries the same index knowledge
     y_fit = popt[0] * x_values + popt[1]
     rms = float(numpy.sqrt(numpy.mean((y_values - y_fit) ** 2)))
