@@ -7,6 +7,14 @@ from numpy.typing import NDArray
 from scipy.optimize import curve_fit
 
 ##
+## === CONSTANTS
+##
+
+TRUE_SLOPE = 2.5
+TRUE_INTERCEPT = 1.3
+NOISE_STD = 0.5
+
+##
 ## === FIT FUNCTION
 ##
 
@@ -27,9 +35,9 @@ def linear_model(
 def main() -> None:
     rng = numpy.random.default_rng(seed=0)
     x_values = numpy.linspace(start=0.0, stop=10.0, num=50)
-    y_values = 2.5 * x_values + 1.3 + rng.normal(
+    y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + rng.normal(
         loc=0.0,
-        scale=0.5,
+        scale=NOISE_STD,
         size=x_values.size,
     )
 
@@ -41,20 +49,13 @@ def main() -> None:
     sigmas = numpy.sqrt(numpy.diag(pcov))
 
     ## popt[0]? popt[1]? you have to check the model signature every time
-    slope = popt[0]
-    intercept = popt[1]
-    slope_sigma = sigmas[0]
-    intercept_sigma = sigmas[1]
-    print(f"\t> slope: {slope:.4f} +/- {slope_sigma:.4f}")
-    print(f"\t> intercept: {intercept:.4f} +/- {intercept_sigma:.4f}")
+    print(f"\t> slope: {popt[0]:.4f} +/- {sigmas[0]:.4f}")
+    print(f"\t> intercept: {popt[1]:.4f} +/- {sigmas[1]:.4f}")
 
     ## passing raw arrays around: every callsite carries the same index knowledge
-    ## also, is slope popt[0] or popt[1]? go check the model
-    slope = popt[0]
-    intercept = popt[1]
-    slope_sigma = sigmas[0]
-    print(f"\t> y = {slope:.3f} * x + {intercept:.3f}")
-    print(f"\t> slope uncertainty: +/-{slope_sigma:.4f}")
+    y_fit = popt[0] * x_values + popt[1]
+    rms = float(numpy.sqrt(numpy.mean((y_values - y_fit) ** 2)))
+    print(f"\t> rms residual: {rms:.4f}")
 
 
 if __name__ == "__main__":
