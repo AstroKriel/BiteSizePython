@@ -24,11 +24,15 @@ FIGURES_DIR = Path("figures")
 ##
 
 
-def f(x: NDArray) -> NDArray:
+def f(
+    x: NDArray,
+) -> NDArray:
     return numpy.sin(2.0 * x) + numpy.cos(x)
 
 
-def df_exact(x: NDArray) -> NDArray:
+def df_exact(
+    x: NDArray,
+) -> NDArray:
     return 2.0 * numpy.cos(2.0 * x) - numpy.sin(x)
 
 
@@ -51,13 +55,13 @@ def main() -> None:
         dx = float(x[1] - x[0])
         y = f(x)
         df_numerical = numpy.gradient(y, dx)
-        rms_error = float(numpy.sqrt(numpy.mean((df_numerical - df_exact(x)) ** 2)))
+        rms_error = float(numpy.sqrt(numpy.mean((df_numerical - df_exact(x))**2)))
         dx_values.append(dx)
         errors.append(rms_error)
         print(f"\t> n={num_points:4d}, dx={dx:.4f}, rms error={rms_error:.2e}")
     dx_arr = numpy.array(dx_values)
     errors_arr = numpy.array(errors)
-    ref = errors_arr[0] * (dx_arr / dx_arr[0]) ** 2
+    ref = errors_arr[0] * (dx_arr / dx_arr[0])**2
     fig, ax = plt.subplots()
     ax.loglog(dx_arr, errors_arr, "o-", label="RMS error")
     ax.loglog(
