@@ -8,6 +8,7 @@ Short and simple Python demos.
 
 - [x] **`uv` for dependency management:** one command to manage your project and reproduce your entire environment
 - [x] **`git` version control:** the git commands and workflows worth knowing
+- [x] **`git` branches:** isolate work in a branch, open a PR, and clean up after merging
 - [x] **Repo structure that enforces intent:** a layout that makes it easier to think clearly about your work
 - [ ] **Building a reusable library:** turn a collection of scripts into something you can import, share, and depend on
 - [ ] **Git submodules:** update your dev tools in one place, and every repo gets them
