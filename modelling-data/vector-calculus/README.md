@@ -24,15 +24,15 @@ The index i is summed over (Einstein convention). At each point in space, this t
 
 ## The gradient tensor
 
-To evaluate the contraction, you first need all partial derivatives of all components: the gradient tensor `grad_b[j, i]` = d(b_j)/d(x_i).
+To evaluate the contraction, you first need all partial derivatives of all components: the gradient tensor `gradient_tensor[comp_index, dir_index]` = d(b_comp)/d(x_dir).
 
 `numpy.gradient` computes it one component at a time:
 
 ```python
-for j in range(n_comp):
-    grads = numpy.gradient(b[j], dx, dy)
-    for i, g in enumerate(grads):
-        grad_b[j, i] = g
+for comp_index in range(num_comps):
+    field_gradients = numpy.gradient(unit_vector_field[comp_index], cell_width_x, cell_width_y)
+    for dir_index, field_gradient in enumerate(field_gradients):
+        gradient_tensor[comp_index, dir_index] = field_gradient
 ```
 
 ---
@@ -42,19 +42,19 @@ for j in range(n_comp):
 With the gradient tensor in hand, the curvature is a sum over i at every grid point. For loops make this explicit:
 
 ```python
-kappa = numpy.zeros_like(b)
-for j in range(n_comp):
-    for i in range(n_comp):
-        kappa[j] += b[i] * grad_b[j, i]
+field_curvature = numpy.zeros_like(unit_vector_field)
+for comp_index in range(num_comps):
+    for dir_index in range(num_comps):
+        field_curvature[comp_index] += unit_vector_field[dir_index] * gradient_tensor[comp_index, dir_index]
 ```
 
 `numpy.einsum` expresses the same thing in one line that mirrors the index notation directly:
 
 ```python
-kappa = numpy.einsum("ixy,jixy->jxy", b, grad_b)
+field_curvature = numpy.einsum("ixy,jixy->jxy", unit_vector_field, gradient_tensor)
 ```
 
-The string reads as: sum over `i`, keep `j`, `x`, `y`. Each letter maps to an axis. Repeated indices that do not appear in the output are contracted (summed). The result has the same shape as `b`.
+The string reads as: sum over `i`, keep `j`, `x`, `y`. Each letter maps to an axis. Repeated indices that do not appear in the output are contracted (summed). The result has the same shape as `unit_vector_field`.
 
 See `before.py` and `after.py` for this in action.
 
