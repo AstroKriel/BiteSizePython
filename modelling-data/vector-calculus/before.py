@@ -8,7 +8,13 @@ from pathlib import Path
 ## third-party
 import matplotlib.pyplot as plt
 import numpy
-from numpy.typing import NDArray
+
+## local
+from local_helpers.vector_field import (
+    compute_gradient_tensor,
+    make_vector_field,
+    normalize_vector_field,
+)
 
 ##
 ## === CONSTANTS
@@ -20,77 +26,58 @@ Y_MIN, Y_MAX = -numpy.pi, numpy.pi
 FIGURES_DIR = Path("figures")
 
 ##
-## === SETUP
-##
-
-
-def make_vector_field(xx: NDArray, yy: NDArray) -> NDArray:
-    return numpy.stack(
-        [
-            numpy.sin(yy) + 1.5,
-            numpy.cos(xx) + 1.5,
-        ],
-        axis=0,
-    )
-
-
-def normalise(b: NDArray) -> NDArray:
-    magnitude = numpy.sqrt(numpy.sum(b**2, axis=0, keepdims=True))
-    return b / magnitude
-
-
-def compute_gradient_tensor(b: NDArray, dx: float, dy: float) -> NDArray:
-    n_comp = b.shape[0]
-    nx, ny = b.shape[1], b.shape[2]
-    grad_b = numpy.zeros(
-        shape=(n_comp, n_comp, nx, ny),
-    )
-    for j in range(n_comp):
-        grads = numpy.gradient(b[j], dx, dy)
-        for i, g in enumerate(grads):
-            grad_b[j, i] = g
-    return grad_b
-
-
-##
 ## === MAIN
 ##
 
 
 def main() -> None:
     FIGURES_DIR.mkdir(exist_ok=True)
-    x = numpy.linspace(
+    position_x = numpy.linspace(
         start=X_MIN,
         stop=X_MAX,
         num=NUM_POINTS,
         endpoint=False,
     )
-    y = numpy.linspace(
+    position_y = numpy.linspace(
         start=Y_MIN,
         stop=Y_MAX,
         num=NUM_POINTS,
         endpoint=False,
     )
-    dx = float(x[1] - x[0])
-    dy = float(y[1] - y[0])
-    xx, yy = numpy.meshgrid(x, y, indexing="ij")
-    b = make_vector_field(xx, yy)
-    b_hat = normalise(b)
-    grad_b = compute_gradient_tensor(b_hat, dx, dy)
-    ## kappa_j = b_i * d(b_j)/d(x_i), summed over i
-    n_comp = b_hat.shape[0]
-    nx, ny = b_hat.shape[1], b_hat.shape[2]
-    kappa = numpy.zeros(
-        shape=(n_comp, nx, ny),
+    cell_width_x = float(position_x[1] - position_x[0])
+    cell_width_y = float(position_y[1] - position_y[0])
+    grid_xs, grid_ys = numpy.meshgrid(position_x, position_y, indexing="ij")
+    vector_field = make_vector_field(grid_xs, grid_ys)
+    unit_vector_field = normalize_vector_field(vector_field)
+    gradient_tensor = compute_gradient_tensor(unit_vector_field, cell_width_x, cell_width_y)
+    ## kappa_j = v_i * d(v_j)/d(x_i), summed over dir_index
+    num_comps = unit_vector_field.shape[0]
+    num_cells_x, num_cells_y = unit_vector_field.shape[1], unit_vector_field.shape[2]
+    field_curvature = numpy.zeros(
+        shape=(num_comps, num_cells_x, num_cells_y),
     )
-    for j in range(n_comp):
-        for i in range(n_comp):
-            kappa[j] += b_hat[i] * grad_b[j, i]
-    kappa_magn = numpy.sqrt(numpy.sum(kappa**2, axis=0))
-    print(f"\t> curvature magnitude: min={kappa_magn.min():.4f}, max={kappa_magn.max():.4f}")
+    for comp_index in range(num_comps):
+        for dir_index in range(num_comps):
+            field_curvature[comp_index] += unit_vector_field[dir_index] * gradient_tensor[
+                comp_index,
+                dir_index,
+            ]
+    field_curvature_magnitude = numpy.sqrt(
+        numpy.sum(
+            field_curvature**2,
+            axis=0,
+        ),
+    )
+    print(
+        f"\t> curvature magnitude: min={field_curvature_magnitude.min():.4f}, max={field_curvature_magnitude.max():.4f}",
+    )
     fig, ax = plt.subplots()
-    im = ax.pcolormesh(xx, yy, kappa_magn, cmap="inferno")
-    fig.colorbar(im, ax=ax, label=r"$|\kappa|$")
+    im = ax.pcolormesh(grid_xs, grid_ys, field_curvature_magnitude, cmap="inferno")
+    fig.colorbar(
+        im,
+        ax=ax,
+        label=r"$|\kappa|$",
+    )
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     fig_path = FIGURES_DIR / "curvature_before.png"
