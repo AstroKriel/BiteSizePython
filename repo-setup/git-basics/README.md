@@ -16,7 +16,25 @@ This creates a repo with `main` as the default branch. Without `-b main`, `git` 
 
 ## git_helpers
 
-[`git_helpers`](https://github.com/AstroKriel/GitHelpers) packages common `git` workflows into useful commands that narrate the process, so you learn the ropes while getting work done. Reach for it when you are unsure, or worried about making a mistake, like syncing branches, pruning stale locals, and managing submodules. As you grow more comfortable, start taking the training wheels off.
+[`git_helpers`](https://github.com/AstroKriel/GitHelpers) packages common `git` workflows into useful commands that narrate the process, so you learn the ropes while getting work done. Reach for it when you are unsure, or worried about making a mistake. As you grow more comfortable, start taking the training wheels off.
+
+Clone and install it once with `uv`:
+
+```sh
+git clone git@github.com:AstroKriel/GitHelpers.git
+cd GitHelpers
+uv tool install .
+```
+
+Then run this once per machine to write sane `git` defaults to `~/.gitconfig`:
+
+```sh
+git_helpers set-global-config
+```
+
+This sets fast-forward preference for merges and enables `rerere`: `git` remembers how you resolved a conflict and reapplies the resolution automatically if the same conflict appears again.
+
+The [git_helpers README](https://github.com/AstroKriel/GitHelpers) has the full command reference. Run `git_helpers --help` to see everything available locally.
 
 ---
 
