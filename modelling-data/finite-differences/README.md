@@ -2,6 +2,10 @@
 
 A simulation gives you a field sampled on a grid. Finite differences give you its derivatives.
 
+## Depends on
+
+- [`uv`](../../repo-setup/uv/)
+
 ---
 
 ## The idea

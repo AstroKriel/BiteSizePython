@@ -2,6 +2,10 @@
 
 A place for everything, and everything has a place.
 
+## Depends on
+
+- [`uv`](../uv/)
+
 ---
 
 ## The layout

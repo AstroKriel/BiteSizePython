@@ -1,6 +1,12 @@
-# field curvature
+# vector calculus
 
 The curvature of a vector field measures how quickly field lines bend. Computing it requires a tensor contraction that einsum handles in one line.
+
+## Depends on
+
+- [`uv`](../../repo-setup/uv/)
+- [`project-structure`](../../repo-setup/project-structure/)
+- [`finite-differences`](../finite-differences/)
 
 ---
 

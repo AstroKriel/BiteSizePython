@@ -2,6 +2,10 @@
 
 A dataclass makes the structure of your data explicit: named fields, optional immutability, built-in validation, and methods that travel with the object.
 
+## Depends on
+
+- [`uv`](../../repo-setup/uv/)
+
 ---
 
 ## The problem
