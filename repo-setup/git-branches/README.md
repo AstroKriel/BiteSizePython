@@ -1,6 +1,6 @@
 # git branches
 
-A branch is a lightweight pointer to a commit. Use one for every change. Keep `main` clean.
+A branch isolates work in progress. `main` stays clean until it's ready to merge.
 
 ## Depends on
 
@@ -26,6 +26,19 @@ refactor/data-loader
 ```
 
 Use the same verbs as your commit messages: `add`, `fix`, `update`, `refactor`, `docs`, `del`.
+
+On a shared repo with multiple contributors, prepend your username so branches are easy to attribute at a glance:
+
+```
+username/verb/short-description
+```
+
+| Rule | |
+|---|---|
+| Separators | `/` for namespaces, `-` for words within a namespace |
+| Length | max 50 characters |
+| Characters | alphanumeric, `-`, and `/` only |
+| Avoid | dates, vague names (`wip`, `temp`, `fix-stuff`) |
 
 ---
 
@@ -82,11 +95,7 @@ git_helpers sync-branch
 
 ## Opening a pull request
 
-When the branch is ready, open a PR:
-
-```sh
-gh pr create --title "add(feature): short description." --body "..."
-```
+When the branch is ready, go to GitHub. If you pushed recently, it will show a banner prompting you to open a PR. Otherwise, navigate to the branch and click "Compare & pull request".
 
 The PR is where changes get reviewed before landing on `main`. Keep the title in the same format as your commit messages.
 
@@ -94,7 +103,7 @@ The PR is where changes get reviewed before landing on `main`. Keep the title in
 
 ## After the merge
 
-Once the PR merges, `origin/add/feature` is deleted. The local branch is now stale. Clean it up:
+Once the PR merges, `origin/add/feature` is deleted. The local branch is now stale. Check which branches are already merged, then delete by name:
 
 ```sh
 git fetch --prune origin
