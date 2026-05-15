@@ -4,6 +4,24 @@ Short and simple Python demos.
 
 ---
 
+## Getting started
+
+Most lessons require [`uv`](https://docs.astral.sh/uv/). Install it once:
+
+**Linux**
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+**macOS**
+```sh
+brew install uv
+```
+
+Then clone this repo and go into any lesson folder. Each one has its own `pyproject.toml`; run scripts with `uv run <script>.py` and `uv` handles the rest. See the [`uv` lesson](repo-setup/uv/) for a hands-on introduction to the tool.
+
+---
+
 ### Building a Productive Repo
 
 - [x] **`uv` for dependency management:** one command to manage your project and reproduce your entire environment
