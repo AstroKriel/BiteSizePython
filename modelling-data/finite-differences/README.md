@@ -1,6 +1,6 @@
 # finite differences
 
-A simulation gives you a field sampled on a grid. Finite differences give you its derivatives.
+A derivative at a grid point can be approximated from nearby function values. The accuracy depends on how many neighbours you use and how you combine them.
 
 ## Depends on
 
@@ -8,38 +8,57 @@ A simulation gives you a field sampled on a grid. Finite differences give you it
 
 ---
 
-## The idea
+## The stencil
 
-Given values of a function at discrete points, the centered finite difference approximates the derivative at each point:
+A stencil is a fixed pattern of indices centred on a grid point. Each stencil gives a different approximation for the derivative at that point. The coefficients are chosen to cancel as many Taylor series terms as possible. The more you cancel, the higher the convergence order.
+
+---
+
+## Forward difference
+
+Uses two grid points — the point and its right neighbour:
 
 ```
-df/dx ≈ (f(x + h) - f(x - h)) / (2h)
+f'(x_i) ≈ ( f_{i+1} - f_i ) / h
 ```
 
-The error shrinks as h². Halve the grid spacing, and the error drops by a factor of four.
+First-order accurate: error scales as O(h). Halve the grid spacing, halve the error.
 
-`numpy.gradient` computes this across an entire array in one call:
+---
 
-```python
-df_numerical = numpy.gradient(y, dx)
+## Centered differences
+
+Symmetric stencils cancel the even-order Taylor terms automatically. A wider stencil cancels more terms and buys a higher order.
+
+**2nd order** — one neighbour on each side:
+
+```
+f'(x_i) ≈ ( f_{i+1} - f_{i-1} ) / (2h)
 ```
 
-It uses second-order centered differences in the interior and first-order at the boundaries.
+**4th order** — two neighbours on each side:
+
+```
+f'(x_i) ≈ ( -f_{i+2} + 8 f_{i+1} - 8 f_{i-1} + f_{i-2} ) / (12h)
+```
+
+**6th order** — three neighbours on each side:
+
+```
+f'(x_i) ≈ ( f_{i+3} - 9 f_{i+2} + 45 f_{i+1} - 45 f_{i-1} + 9 f_{i-2} - f_{i-3} ) / (60h)
+```
+
+Halving h reduces the error by 2^n for an n-th order method.
 
 ---
 
 ## Convergence
 
-A numerical method is only trustworthy if it converges at the expected rate. The recipe:
+To verify a method, vary the grid spacing and measure the RMS error against the exact derivative. On a log-log plot, an n-th order method falls on a straight line with slope n.
 
-1. Compute the numerical derivative at several grid resolutions
-2. Compute the RMS error against the analytical derivative at each resolution
-3. Confirm the error scales as h² on a log-log plot
+`script.py` tests all four methods on `f(x) = sin(2x) + cos(x)` and produces a 2x2 figure:
 
-```python
-rms_error = float(numpy.sqrt(numpy.mean((df_numerical - df_exact) ** 2)))
-```
-
-If the slope on the log-log plot matches the expected order, the method is working correctly. If it does not, something is wrong.
-
-See `script.py` for this in action.
+- **function** — the test function on a fine grid
+- **derivative approximations** — each method overlaid on the exact derivative at a coarse grid
+- **convergence** — RMS error vs grid spacing on a log-log scale, with expected slope references
+- **pointwise error** — absolute error at each grid point for the coarse example
