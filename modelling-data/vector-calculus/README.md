@@ -1,6 +1,6 @@
 # vector calculus
 
-The curvature of a vector field measures how quickly field lines bend. Computing it requires a tensor contraction that einsum handles in one line.
+Index notation is the most convenient language for analytic vector calculus. `numpy.einsum` brings this same language to computational vector calculus.
 
 ## Depends on
 
