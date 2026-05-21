@@ -11,7 +11,8 @@ from numpy.typing import NDArray
 ##
 
 
-def make_vector_field(
+def create_vector_field(
+    *,
     grid_xs: NDArray,
     grid_ys: NDArray,
 ) -> NDArray:
@@ -25,6 +26,7 @@ def make_vector_field(
 
 
 def normalize_vector_field(
+    *,
     vector_field: NDArray,
 ) -> NDArray:
     field_magnitude = numpy.sqrt(
@@ -38,6 +40,7 @@ def normalize_vector_field(
 
 
 def compute_gradient_tensor(
+    *,
     vector_field: NDArray,
     cell_width_x: float,
     cell_width_y: float,

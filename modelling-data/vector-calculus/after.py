@@ -10,11 +10,7 @@ import matplotlib.pyplot as mpl_plot
 import numpy
 
 ## local
-from local_helpers.vector_field import (
-    compute_gradient_tensor,
-    make_vector_field,
-    normalize_vector_field,
-)
+from local_helpers import field_helpers
 
 ##
 ## === CONSTANTS
@@ -24,6 +20,20 @@ NUM_POINTS = 64
 X_MIN, X_MAX = -numpy.pi, numpy.pi
 Y_MIN, Y_MAX = -numpy.pi, numpy.pi
 FIGURES_DIR = Path("figures")
+
+##
+## === CURVATURE
+##
+
+
+def compute_field_curvature(
+    *,
+    unit_vector_field: numpy.ndarray,
+    gradient_tensor: numpy.ndarray,
+) -> numpy.ndarray:
+    ## kappa_j = v_i * d(v_j)/d(x_i): "ixy,jixy->jxy" sums over dir_index, keeps comp_index, x, y
+    return numpy.einsum("ixy,jixy->jxy", unit_vector_field, gradient_tensor)
+
 
 ##
 ## === PROGRAM MAIN
@@ -47,11 +57,22 @@ def main() -> None:
     cell_width_x = float(position_x[1] - position_x[0])
     cell_width_y = float(position_y[1] - position_y[0])
     grid_xs, grid_ys = numpy.meshgrid(position_x, position_y, indexing="ij")
-    vector_field = make_vector_field(grid_xs, grid_ys)
-    unit_vector_field = normalize_vector_field(vector_field)
-    gradient_tensor = compute_gradient_tensor(unit_vector_field, cell_width_x, cell_width_y)
-    ## kappa_j = v_i * d(v_j)/d(x_i): "ixy,jixy->jxy" sums over dir_index, keeps comp_index, x, y
-    field_curvature = numpy.einsum("ixy,jixy->jxy", unit_vector_field, gradient_tensor)
+    vector_field = field_helpers.create_vector_field(
+        grid_xs=grid_xs,
+        grid_ys=grid_ys,
+    )
+    unit_vector_field = field_helpers.normalize_vector_field(
+        vector_field=vector_field,
+    )
+    gradient_tensor = field_helpers.compute_gradient_tensor(
+        vector_field=unit_vector_field,
+        cell_width_x=cell_width_x,
+        cell_width_y=cell_width_y,
+    )
+    field_curvature = compute_field_curvature(
+        unit_vector_field=unit_vector_field,
+        gradient_tensor=gradient_tensor,
+    )
     field_curvature_magnitude = numpy.sqrt(
         numpy.sum(
             field_curvature**2,
