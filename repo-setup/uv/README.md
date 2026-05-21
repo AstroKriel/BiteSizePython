@@ -175,11 +175,14 @@ After `uv init` and a few `uv add`s, your folder now contains a handful of files
 ```
 the-uv-way/
 ├── script.py
+├── main.py
 ├── pyproject.toml
 ├── uv.lock
 ├── .python-version
 └── .venv/
 ```
+
+> **Note:** `uv init` creates a `main.py` as a placeholder entry point. Delete it: we prefer giving scripts meaningful names and placing them under a `scripts/` directory rather than at the project root. The [project-structure](../project-structure/) lesson covers this.
 
 `pyproject.toml` declares your project's name and dependencies. `uv add` and `uv remove` keep the list of third-party dependencies up to date, so you rarely need to edit this file by hand.
 
