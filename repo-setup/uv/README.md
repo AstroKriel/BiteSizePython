@@ -2,17 +2,19 @@
 
 One command to rule them all.
 
+If you have not already, install `uv` by following the instructions in the [repo root README](../../README.md#getting-started).
+
 ---
 
 ## The script
 
-Here we will work with a `script.py` that depends on three packages. For now, we need not worry what these dependencies are. That is rather the point.
+Here we will work with a `script.py` that depends on three third-party packages, showing different workflows to get it working. For now, we need not worry about which packages this script uses; in fact, when using a package manager like `uv`, that is kind of the point.
 
 ---
 
 ## The old way
 
-You have been here before. Set up the environment, remember which packages you need, install them, run the script, tear it down.
+I am sure you have been here before. You start a new project, write your first script, and now face the task of needing to work through the boilerplate steps to initialise a Python environment; this requires you to remember which packages you need, which commands to install them, you then need to activate the environment in order to run the script, and then tear it down when you are done. To remind you what this looks like, work through the following, or skip to the next section to see the simpler solution `uv` offers.
 
 From inside this lesson folder, make a subfolder and copy the script into it:
 
@@ -59,15 +61,13 @@ source .venv/bin/activate
 jupyter lab
 ```
 
-Move to a new machine or hand the script to a colleague, and you start again from memory.
-
 ---
 
 ## The uv way
 
-You do not need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
+`uv` does away with most of that boilerplate. In exchange for rooting your commands in `uv` (`uv run` instead of `python`, `uv add` instead of `pip install`) your Python environment is created and managed for you. In fact, you do not even need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
 
-From inside this lesson folder, make a subfolder and copy the script into it:
+To see this in action, work through the same process, this time using `uv`. From inside this lesson folder, make a subfolder and copy the script into it:
 
 ```sh
 mkdir uv
@@ -119,6 +119,8 @@ uv run jupyter lab
 This drops you straight into the project environment. No need to manually activate your environment and then launch your server.
 
 ### What uv created
+
+After `uv init` and a few `uv add`s, your folder now contains a handful of files worth knowing about.
 
 `pyproject.toml` declares your project's name and dependencies. `uv add` and `uv remove` keep the list of third-party dependencies up to date, so you rarely need to edit this file by hand.
 
