@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 ## third-party
 import numpy
+
 from numpy.typing import NDArray
 from scipy.optimize import curve_fit as scipy_curve_fit
 
