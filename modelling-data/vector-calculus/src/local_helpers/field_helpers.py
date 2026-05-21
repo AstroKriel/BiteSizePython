@@ -7,6 +7,13 @@ import numpy
 from numpy.typing import NDArray
 
 ##
+## === CONSTANTS
+##
+
+FORWARD = -1
+BACKWARD = +1
+
+##
 ## === FUNCTIONS
 ##
 
@@ -52,8 +59,12 @@ def compute_gradient_tensor(
     )
     for comp_index in range(num_comps):
         field = vector_field[comp_index]
-        gradient_tensor[comp_index, 0] = (numpy.roll(field, -1, axis=0) -
-                                          numpy.roll(field, 1, axis=0)) / (2.0 * cell_width_x)
-        gradient_tensor[comp_index, 1] = (numpy.roll(field, -1, axis=1) -
-                                          numpy.roll(field, 1, axis=1)) / (2.0 * cell_width_y)
+        gradient_tensor[comp_index, 0] = (
+            numpy.roll(field, int(1 * FORWARD), axis=0) -
+            numpy.roll(field, int(1 * BACKWARD), axis=0)
+        ) / (2.0 * cell_width_x)
+        gradient_tensor[comp_index, 1] = (
+            numpy.roll(field, int(1 * FORWARD), axis=1) -
+            numpy.roll(field, int(1 * BACKWARD), axis=1)
+        ) / (2.0 * cell_width_y)
     return gradient_tensor
