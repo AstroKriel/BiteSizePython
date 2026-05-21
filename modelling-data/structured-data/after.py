@@ -117,7 +117,7 @@ class LineFit:
 
 
 ##
-## === MAIN
+## === PROGRAM MAIN
 ##
 
 
@@ -142,6 +142,10 @@ def main() -> None:
     result.print_summary()
     print(f"\t> first fitted value: {result.evaluate_at(x_values=x_values)[0]:.4f}")
 
+
+##
+## === ENTRY POINT
+##
 
 if __name__ == "__main__":
     main()

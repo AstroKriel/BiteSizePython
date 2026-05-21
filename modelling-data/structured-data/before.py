@@ -30,7 +30,7 @@ def linear_model(
 
 
 ##
-## === MAIN
+## === PROGRAM MAIN
 ##
 
 
@@ -61,6 +61,10 @@ def main() -> None:
     rms_value = float(numpy.sqrt(numpy.mean((y_values - y_fit)**2)))
     print(f"\t> rms residual: {rms_value:.4f}")
 
+
+##
+## === ENTRY POINT
+##
 
 if __name__ == "__main__":
     main()

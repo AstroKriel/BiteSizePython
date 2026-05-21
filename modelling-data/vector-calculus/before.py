@@ -26,7 +26,7 @@ Y_MIN, Y_MAX = -numpy.pi, numpy.pi
 FIGURES_DIR = Path("figures")
 
 ##
-## === MAIN
+## === PROGRAM MAIN
 ##
 
 
@@ -84,6 +84,10 @@ def main() -> None:
     fig.savefig(fig_path, dpi=150)
     print(f"\t> saved: {fig_path}")
 
+
+##
+## === ENTRY POINT
+##
 
 if __name__ == "__main__":
     main()

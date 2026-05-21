@@ -78,7 +78,7 @@ class LineFit:
 
 
 ##
-## === MAIN
+## === PROGRAM MAIN
 ##
 
 
@@ -122,6 +122,10 @@ def main() -> None:
     fig.savefig(fig_name, dpi=150)
     print(f"\t> saved: {fig_name}")
 
+
+##
+## === ENTRY POINT
+##
 
 if __name__ == "__main__":
     main()
