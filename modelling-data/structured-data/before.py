@@ -35,17 +35,18 @@ def linear_model(
 
 
 def main() -> None:
-    rng = numpy.random.default_rng(seed=0)
     x_values = numpy.linspace(
         start=0.0,
         stop=10.0,
         num=50,
     )
-    y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + rng.normal(
+    rng = numpy.random.default_rng(seed=0)
+    random_values = rng.normal(
         loc=0.0,
         scale=NOISE_STD,
         size=x_values.size,
     )
+    y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + random_values
     popt, pcov = scipy_curve_fit(
         f=linear_model,
         xdata=x_values,
