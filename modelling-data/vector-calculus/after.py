@@ -6,7 +6,7 @@
 from pathlib import Path
 
 ## third-party
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as mpl_plot
 import numpy
 
 ## local
@@ -61,7 +61,7 @@ def main() -> None:
     print(
         f"\t> curvature magnitude: min={field_curvature_magnitude.min():.4f}, max={field_curvature_magnitude.max():.4f}",
     )
-    fig, ax = plt.subplots()
+    fig, ax = mpl_plot.subplots()
     im = ax.pcolormesh(grid_xs, grid_ys, field_curvature_magnitude, cmap="inferno")
     fig.colorbar(
         im,

@@ -6,7 +6,7 @@
 from pathlib import Path
 
 ## third-party
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as mpl_plot
 import numpy
 from numpy.typing import NDArray
 
@@ -62,7 +62,7 @@ def main() -> None:
     dx_arr = numpy.array(dx_values)
     errors_arr = numpy.array(errors)
     ref = errors_arr[0] * (dx_arr / dx_arr[0])**2
-    fig, ax = plt.subplots()
+    fig, ax = mpl_plot.subplots()
     ax.loglog(dx_arr, errors_arr, "o-", label="RMS error")
     ax.loglog(
         dx_arr,

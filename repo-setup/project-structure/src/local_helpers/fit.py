@@ -2,13 +2,13 @@
 ## === DEPENDENCIES
 ##
 
-## standard library
+## stdlib
 from dataclasses import dataclass
 
 ## third-party
 import numpy
 from numpy.typing import NDArray
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit as scipy_curve_fit
 
 ##
 ## === FIT FUNCTION
@@ -41,7 +41,7 @@ class LineFit:
         x_values: NDArray,
         y_values: NDArray,
     ) -> "LineFit":
-        popt, pcov = curve_fit(
+        popt, pcov = scipy_curve_fit(
             f=_linear_model,
             xdata=x_values,
             ydata=y_values,

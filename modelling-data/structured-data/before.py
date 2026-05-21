@@ -2,9 +2,11 @@
 ## === DEPENDENCIES
 ##
 
+## third-party
 import numpy
+
 from numpy.typing import NDArray
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit as scipy_curve_fit
 
 ##
 ## === CONSTANTS
@@ -44,7 +46,7 @@ def main() -> None:
         scale=NOISE_STD,
         size=x_values.size,
     )
-    popt, pcov = curve_fit(
+    popt, pcov = scipy_curve_fit(
         f=linear_model,
         xdata=x_values,
         ydata=y_values,

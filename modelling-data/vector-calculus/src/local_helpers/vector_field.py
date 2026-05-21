@@ -3,6 +3,7 @@
 ##
 
 import numpy
+
 from numpy.typing import NDArray
 
 ##

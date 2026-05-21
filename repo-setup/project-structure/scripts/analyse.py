@@ -2,11 +2,11 @@
 ## === DEPENDENCIES
 ##
 
-## standard library
+## stdlib
 from pathlib import Path
 
 ## third-party
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as mpl_plot
 import numpy
 
 ## local
@@ -28,27 +28,25 @@ FIGURES_DIR = Path("figures")
 
 def main() -> None:
     FIGURES_DIR.mkdir(exist_ok=True)
-    rng = numpy.random.default_rng(seed=0)
     x_values = numpy.linspace(
         start=0.0,
         stop=10.0,
         num=50,
     )
-    y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + rng.normal(
+    rng = numpy.random.default_rng(seed=0)
+    random_values = rng.normal(
         loc=0.0,
         scale=NOISE_STD,
         size=x_values.size,
     )
-
+    y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + random_values
     result = LineFit.from_fit(
         x_values=x_values,
         y_values=y_values,
     )
     result.print_summary()
-
     y_fit = result.evaluate_at(x_values=x_values)
-
-    fig, ax = plt.subplots()
+    fig, ax = mpl_plot.subplots()
     ax.scatter(
         x_values,
         y_values,
