@@ -150,7 +150,11 @@ def compute_rms_error(
         cell_width=cell_width,
     )
     dydx_exact = compute_dydx_exact(x_values[method.x_slice])
-    rms_error = float(numpy.sqrt(numpy.mean((dydx_approx - dydx_exact)**2)))
+    rms_error = float(
+        numpy.sqrt(
+            numpy.mean((dydx_approx - dydx_exact)**2),
+        ),
+    )
     return cell_width, rms_error
 
 
