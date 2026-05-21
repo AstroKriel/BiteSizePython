@@ -13,16 +13,19 @@ A place for everything, and everything has a place.
 Separate what you run from what you reuse, and keep generated outputs out of the way.
 
 ```
-my-project/
-├── scripts/            # one script per task, runnable top-to-bottom
-├── src/
-│   └── local_helpers/  # shared code that scripts draw from
-├── datasets/           # input data, hidden from git by default
-├── figures/            # generated outputs, hidden from git by default
-├── pyproject.toml      # project name, Python version, dependencies, and build backend
-├── uv.lock             # pinned versions of every dependency
-├── .python-version     # pins the python version for this project
-└── .gitignore          # files and folders excluded from being tracked by git
+<project-folder>/
+├── scripts/              # groups your scripts
+│   └── <script>.py
+├── src/                  # groups your local packages
+│   └── <local-package>/  # a local package of shared code
+│       ├── __init__.py   # marks this as a Python package
+│       └── <module>.py   # helper functions and workflows
+├── datasets/             # input data
+├── figures/              # generated outputs
+├── pyproject.toml        # project metadata
+├── uv.lock               # pinned dependency versions
+├── .python-version       # python version used in the project
+└── .gitignore            # files and folders excluded from being tracked by git
 ```
 
 This folder is an example of this kind of layout.
@@ -65,24 +68,26 @@ build-backend = "hatchling.build"
 
 `[build-system]` tells `uv` how to make your local package importable. `[tool.hatch.build.targets.wheel]` tells hatchling where to find it; replace `<package-name>` with the name of your folder inside `src/`. `uv run` picks it up automatically; no extra steps needed. `hatchling` is the right default: it is what `uv` uses out of the box and requires no configuration. `setuptools` and `distutils` are older options you may encounter in the wild, but they predate modern workflows and are not worth reaching for in new projects.
 
+In `src/`, every folder you want to be able to import from, needs its own `__init__.py`; one at each level. This file tells Python to treat a folder as a package. By default, the presence of this file is all that matters; for the workflows covered here, you do not need to put anything in the file.
+
 ---
 
 ## Import order in scripts
 
-The official Python style guide (`PEP 8`) requires imports to be grouped in the following order: standard library first, then third-party packages, and finally local packages. This keeps dependencies visible. Within each import block, sort packages alphabetically. None of this is enforced, but it's a good rule to follow.
+The official Python style guide (`PEP 8`) requires imports to be grouped in the following order: standard library (stdlib) first, then third-party packages, and finally local packages. This keeps dependencies visible. Within each import block, sort packages alphabetically. None of this is enforced, but it's a good rule to follow.
 
 ```python
-## standard libraries
+## standard library (stdlib)
 import <std-package>
 
 from <std-package> import <module>
 
-## third-party packages
+## third-party
 import <third-party-package>
 
 from <third-party-package> import <module>
 
-## local packages
+## local
 import <local-package>
 
 from <local-package> import <module>
