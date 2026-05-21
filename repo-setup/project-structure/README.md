@@ -5,6 +5,7 @@ A place for everything, and everything has a place.
 ## Depends on
 
 - [`uv`](../uv/)
+- [`structured-data`](../../modelling-data/structured-data/)
 
 ---
 

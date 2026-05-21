@@ -10,7 +10,7 @@ import matplotlib.pyplot as mpl_plot
 import numpy
 
 ## local
-from local_helpers.linear_fit import LineFit
+from local_helpers.linear_fit import DataSeries, LineFit
 
 ##
 ## === CONSTANTS
@@ -41,18 +41,19 @@ def main() -> None:
         size=x_values.size,
     )
     y_values = TRUE_SLOPE * x_values + TRUE_INTERCEPT + random_values
-    result = LineFit.from_fit(
+    data_series = DataSeries(
         x_values=x_values,
         y_values=y_values,
     )
+    result = LineFit.from_fit(data_series=data_series)
     print(f"\t> true slope: {TRUE_SLOPE:.4f}")
     print(f"\t> true intercept: {TRUE_INTERCEPT:.4f}")
     result.print_summary()
-    y_fit = result.evaluate_at(x_values=x_values)
+    y_fit = result.evaluate_at(x_values=result.data_series.x_values)
     fig, ax = mpl_plot.subplots()
     ax.plot(
-        x_values,
-        y_values,
+        result.data_series.x_values,
+        result.data_series.y_values,
         linestyle="none",
         marker="o",
         markersize=4,
@@ -60,7 +61,7 @@ def main() -> None:
         label="data points",
     )
     ax.plot(
-        x_values,
+        result.data_series.x_values,
         y_fit,
         linestyle="-",
         color="red",
