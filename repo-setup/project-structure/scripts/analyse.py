@@ -10,7 +10,7 @@ import matplotlib.pyplot as mpl_plot
 import numpy
 
 ## local
-from local_helpers.fit import LineFit
+from local_helpers.linear_fit import LineFit
 
 ##
 ## === CONSTANTS
