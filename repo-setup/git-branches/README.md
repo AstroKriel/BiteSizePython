@@ -1,6 +1,6 @@
 # git branches
 
-A branch isolates work in progress. `main` stays clean until it's ready to merge.
+Keep your worklow on the `main` branch clean and runnable, and isolate large feature changes in a branch that can be integrated once they are ready.
 
 ## Depends on
 
@@ -44,6 +44,8 @@ username/verb/short-description
 
 ## Creating a branch
 
+Always branch from the latest `origin/main`, not wherever your local checkout happens to be.
+
 Start from the latest `origin/main`:
 
 ```sh
@@ -76,6 +78,8 @@ git_helpers push
 
 ## If main moves while you are working
 
+Do not rebase; merge instead. Rebase rewrites commits, which causes problems if anyone else has already pulled your branch.
+
 If commits land on `main` after you branched, your branch starts to diverge. Merge them in:
 
 ```sh
@@ -102,6 +106,8 @@ The PR is where changes get reviewed before landing on `main`. Keep the title in
 ---
 
 ## After the merge
+
+The branch has done its job. Leave stale branches around and they become clutter.
 
 Once the PR merges, `origin/add/feature` is deleted. The local branch is now stale. Check which branches are already merged, then delete by name:
 
