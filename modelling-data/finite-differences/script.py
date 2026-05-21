@@ -45,7 +45,7 @@ def compute_dydx_exact(
 ##
 
 
-def compute_forward_difference(
+def compute_1st_order_forward_difference(
     y_values: NDArray,
     *,
     cell_width: float,
@@ -53,7 +53,7 @@ def compute_forward_difference(
     return (y_values[1:] - y_values[:-1]) / cell_width
 
 
-def compute_centered_2nd_difference(
+def compute_2nd_order_centered_difference(
     y_values: NDArray,
     *,
     cell_width: float,
@@ -61,7 +61,7 @@ def compute_centered_2nd_difference(
     return (y_values[2:] - y_values[:-2]) / (2.0 * cell_width)
 
 
-def compute_centered_4th_difference(
+def compute_4th_order_centered_difference(
     y_values: NDArray,
     *,
     cell_width: float,
@@ -75,7 +75,7 @@ def compute_centered_4th_difference(
     return numerator / (12.0 * cell_width)
 
 
-def compute_centered_6th_difference(
+def compute_6th_order_centered_difference(
     y_values: NDArray,
     *,
     cell_width: float,
@@ -108,28 +108,28 @@ class Method:
 METHODS = [
     Method(
         name=r"forward $O(h)$",
-        compute_fn=compute_forward_difference,
+        compute_fn=compute_1st_order_forward_difference,
         order=1,
         x_slice=slice(None, -1),
         color="blue",
     ),
     Method(
         name=r"centered $O(h^2)$",
-        compute_fn=compute_centered_2nd_difference,
+        compute_fn=compute_2nd_order_centered_difference,
         order=2,
         x_slice=slice(1, -1),
         color="orange",
     ),
     Method(
         name=r"centered $O(h^4)$",
-        compute_fn=compute_centered_4th_difference,
+        compute_fn=compute_4th_order_centered_difference,
         order=4,
         x_slice=slice(2, -2),
         color="green",
     ),
     Method(
         name=r"centered $O(h^6)$",
-        compute_fn=compute_centered_6th_difference,
+        compute_fn=compute_6th_order_centered_difference,
         order=6,
         x_slice=slice(3, -3),
         color="red",
