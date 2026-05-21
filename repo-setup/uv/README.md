@@ -16,6 +16,8 @@ Here we will work with a `script.py` that depends on three third-party packages,
 
 I am sure you have been here before. You start a new project, write your first script, and now face the task of needing to work through the boilerplate steps to initialise a Python environment; this requires you to remember which packages you need, which commands to install them, you then need to activate the environment in order to run the script, and then tear it down when you are done. To remind you what this looks like, work through the following, or skip to the next section to see the simpler solution `uv` offers.
 
+### Setup
+
 From inside this lesson folder, make a subfolder and copy the script into it:
 
 ```sh
@@ -61,11 +63,36 @@ source .venv/bin/activate
 jupyter lab
 ```
 
+### Reproducibility
+
+To make this project reproducible, you need to capture your environment:
+
+```sh
+pip freeze > requirements.txt
+```
+
+Anyone starting fresh will need this file to recreate it:
+
+```sh
+pip install -r requirements.txt
+```
+
+This file is not created or updated automatically. You need to remember to regenerate it every time you add or remove a package.
+
+```
+<project>/
+├── script.py
+├── requirements.txt
+└── .venv/
+```
+
 ---
 
 ## The uv way
 
 `uv` does away with most of that boilerplate. In exchange for rooting your commands in `uv` (`uv run` instead of `python`, `uv add` instead of `pip install`) your Python environment is created and managed for you. In fact, you do not even need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
+
+### Setup
 
 To see this in action, work through the same process, this time using `uv`. From inside this lesson folder, make a subfolder and copy the script into it:
 
@@ -108,7 +135,7 @@ uv run script.py
 # it works
 ```
 
-No activate. No deactivate. No auditing your imports before you start. `uv` builds up the dependency list for you as you go, and once it runs, anyone with `uv` can clone or copy the folder and be running immediately.
+At no point did you activate or deactivate an environment, or stop to work out which packages to install. `uv` built up the dependency list as you went; now anyone with `uv` can clone or copy the folder and be running immediately.
 
 If you use notebooks, start your session the same way:
 
@@ -122,6 +149,15 @@ This drops you straight into the project environment. No need to manually activa
 
 After `uv init` and a few `uv add`s, your folder now contains a handful of files worth knowing about.
 
+```
+<project>/
+├── script.py
+├── pyproject.toml
+├── uv.lock
+├── .python-version
+└── .venv/
+```
+
 `pyproject.toml` declares your project's name and dependencies. `uv add` and `uv remove` keep the list of third-party dependencies up to date, so you rarely need to edit this file by hand.
 
 `uv.lock` contains the completely resolved dependency tree: your dependencies and all of their sub-dependencies, each pinned to an exact version. `uv` negotiates all of these versions for you, finding a combination that satisfies every constraint. You can be as specific or as loose as you like with version requirements, and it will work out what is compatible. Anyone with `uv` can use this file to reproduce your exact environment.
@@ -129,6 +165,22 @@ After `uv init` and a few `uv add`s, your folder now contains a handful of files
 `.python-version` pins the Python version for this project, so the same interpreter is used everywhere.
 
 `.venv/` is the virtual environment, created and managed by `uv`. You never need to or ever should touch it directly.
+
+### Reproducibility
+
+To see this for yourself, remove the environment:
+
+```sh
+rm -rf .venv/
+```
+
+This is what a fresh start looks like: a colleague cloning your repo, or you on a new machine. The virtual environment is not committed to version control, but `pyproject.toml`, `uv.lock`, and `.python-version` are, and that is all `uv` needs. Run:
+
+```sh
+uv sync
+uv run script.py
+# it works
+```
 
 
 ## Going further
