@@ -1,4 +1,4 @@
-# uv
+# dependencies
 
 One command to rule them all.
 

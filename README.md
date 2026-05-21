@@ -18,7 +18,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 brew install uv
 ```
 
-Then clone this repo and go into any lesson folder. Each one has its own `pyproject.toml`; run scripts with `uv run <script>.py` and `uv` handles the rest. See the [`uv` lesson](repo-setup/uv/) for a hands-on introduction to the tool.
+Then clone this repo and go into any lesson folder. Each one has its own `pyproject.toml`; run scripts with `uv run <script>.py` and `uv` handles the rest. See the [`dependencies` lesson](repo-setup/dependencies/) for a hands-on introduction to the tool.
 
 ---
 

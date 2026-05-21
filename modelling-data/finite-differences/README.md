@@ -4,7 +4,7 @@ The derivative of a discretised field at a point is constructed by looking at ho
 
 ## Depends on
 
-- [`uv`](../../repo-setup/uv/)
+- [`dependencies`](../../repo-setup/dependencies/)
 - [`structured-data`](../structured-data/)
 
 ---

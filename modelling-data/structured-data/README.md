@@ -4,7 +4,7 @@ A dataclass makes the structure of your data explicit: named fields, optional im
 
 ## Depends on
 
-- [`uv`](../../repo-setup/uv/)
+- [`dependencies`](../../repo-setup/dependencies/)
 
 ---
 
