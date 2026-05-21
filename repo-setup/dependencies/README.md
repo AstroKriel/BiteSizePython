@@ -182,8 +182,6 @@ the-uv-way/
 └── .venv/
 ```
 
-> **Note:** `uv init` creates a `main.py` as a placeholder entry point. Delete it: we prefer giving scripts meaningful names and placing them under a `scripts/` directory rather than at the project root. The [project-layout](../project-layout/) lesson covers this.
-
 `pyproject.toml` declares your project's name and dependencies. `uv add` and `uv remove` keep the list of third-party dependencies up to date, so you rarely need to edit this file by hand.
 
 `uv.lock` contains the completely resolved dependency tree: your dependencies and all of their sub-dependencies, each pinned to an exact version. `uv` negotiates all of these versions for you, finding a combination that satisfies every constraint. You can be as specific or as loose as you like with version requirements, and it will work out what is compatible. Anyone with `uv` can use this file to reproduce your exact environment.
@@ -191,6 +189,8 @@ the-uv-way/
 `.python-version` pins the Python version for this project, so the same interpreter is used everywhere.
 
 `.venv/` is the virtual environment, created and managed by `uv`. You never need to or ever should touch it directly.
+
+> **Note:** `uv init` creates a `main.py` as a placeholder script. I suggest you delete it; we will prefer giving scripts meaningful names and placing them under a `scripts/` directory rather than putting them in the project root. The [project-layout](../project-layout/) lesson covers this.
 
 ### Reproducibility
 
