@@ -1,6 +1,6 @@
 # finite differences
 
-On a discrete grid, a derivative at a point is approximated from nearby samples. The more of the neighbourhood you use, the better the approximation.
+The derivative of a discretised field at a point is constructed by looking at how nearby samples compare. The more of the neighbouring field you use, the better the approximation.
 
 ## Depends on
 
@@ -51,3 +51,9 @@ Halving h reduces the error by 2^n for an n-th order method.
 The payoff is visible on a log-log convergence plot. Each method falls on a straight line whose slope is its order. Higher-order methods need far fewer grid points to reach the same accuracy.
 
 `script.py` tests all four methods on `f(x) = sin(2x) + cos(x)` and produces a two-panel figure: the derivative approximations at a coarse grid, and the convergence of each method across grid resolutions.
+
+---
+
+## Connection to 3D fields
+
+Simulation grids are discretised fields. Taking a derivative along a grid axis is exactly the same operation: apply a stencil to the values at neighbouring grid points along that direction. The stencils, the convergence orders, and the accuracy tradeoffs are all identical. The only difference is that you have three axes to differentiate along instead of one.
