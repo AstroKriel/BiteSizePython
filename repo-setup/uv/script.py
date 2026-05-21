@@ -91,15 +91,12 @@ def main() -> None:
         scale=NOISE_STD,
         size=x_values.size,
     )
-
     result = LineFit.from_fit(
         x_values=x_values,
         y_values=y_values,
     )
     result.print_summary()
-
     y_fit = result.evaluate_at(x_values=x_values)
-
     fig, ax = plt.subplots()
     ax.scatter(
         x_values,
