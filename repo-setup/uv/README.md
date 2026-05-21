@@ -182,7 +182,7 @@ the-uv-way/
 └── .venv/
 ```
 
-> **Note:** `uv init` creates a `main.py` as a placeholder entry point. Delete it: we prefer giving scripts meaningful names and placing them under a `scripts/` directory rather than at the project root. The [project-structure](../project-structure/) lesson covers this.
+> **Note:** `uv init` creates a `main.py` as a placeholder entry point. Delete it: we prefer giving scripts meaningful names and placing them under a `scripts/` directory rather than at the project root. The [project-layout](../project-layout/) lesson covers this.
 
 `pyproject.toml` declares your project's name and dependencies. `uv add` and `uv remove` keep the list of third-party dependencies up to date, so you rarely need to edit this file by hand.
 

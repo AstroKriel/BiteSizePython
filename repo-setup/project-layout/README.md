@@ -1,4 +1,4 @@
-# project structure
+# project layout
 
 A place for everything, and everything has a place.
 

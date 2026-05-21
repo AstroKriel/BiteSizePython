@@ -5,7 +5,7 @@ Index notation is the most convenient language for analytic vector calculus. `nu
 ## Depends on
 
 - [`uv`](../../repo-setup/uv/)
-- [`project-structure`](../../repo-setup/project-structure/)
+- [`project-layout`](../../repo-setup/project-layout/)
 - [`finite-differences`](../finite-differences/)
 
 ---
