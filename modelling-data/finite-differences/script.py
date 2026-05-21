@@ -22,6 +22,8 @@ X_MIN = 0.0
 X_MAX = 2.0 * numpy.pi
 PLANNED_NUM_POINTS = [10, 20, 50, 100, 200, 500, 1000]
 FIGURES_DIR = Path("figures")
+FORWARD = -1
+BACKWARD = +1
 
 ##
 ## === TEST FUNCTIONS
@@ -50,7 +52,7 @@ def compute_1st_order_forward_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    return (y_values[1:] - y_values[:-1]) / cell_width
+    return (numpy.roll(y_values, int(1 * FORWARD)) - y_values) / cell_width
 
 
 def compute_2nd_order_centered_difference(
@@ -58,7 +60,9 @@ def compute_2nd_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    return (y_values[2:] - y_values[:-2]) / (2.0 * cell_width)
+    return (
+        numpy.roll(y_values, int(1 * FORWARD)) - numpy.roll(y_values, int(1 * BACKWARD))
+    ) / (2.0 * cell_width)
 
 
 def compute_4th_order_centered_difference(
@@ -66,7 +70,12 @@ def compute_4th_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    numerator = (-y_values[4:] + 8.0 * y_values[3:-1] - 8.0 * y_values[1:-3] + y_values[:-4])
+    numerator = (
+        -numpy.roll(y_values, int(2 * FORWARD))
+        + 8.0 * numpy.roll(y_values, int(1 * FORWARD))
+        - 8.0 * numpy.roll(y_values, int(1 * BACKWARD))
+        + numpy.roll(y_values, int(2 * BACKWARD))
+    )
     return numerator / (12.0 * cell_width)
 
 
@@ -76,8 +85,12 @@ def compute_6th_order_centered_difference(
     cell_width: float,
 ) -> NDArray:
     numerator = (
-        y_values[6:] - 9.0 * y_values[5:-1] + 45.0 * y_values[4:-2] - 45.0 * y_values[2:-4] +
-        9.0 * y_values[1:-5] - y_values[:-6]
+        numpy.roll(y_values, int(3 * FORWARD))
+        - 9.0 * numpy.roll(y_values, int(2 * FORWARD))
+        + 45.0 * numpy.roll(y_values, int(1 * FORWARD))
+        - 45.0 * numpy.roll(y_values, int(1 * BACKWARD))
+        + 9.0 * numpy.roll(y_values, int(2 * BACKWARD))
+        - numpy.roll(y_values, int(3 * BACKWARD))
     )
     return numerator / (60.0 * cell_width)
 
@@ -92,7 +105,6 @@ class Method:
     name: str
     compute_fn: Callable[..., NDArray]
     order: int
-    x_slice: slice
     color: str
 
 
@@ -101,28 +113,24 @@ METHODS = [
         name=r"forward $O(h)$",
         compute_fn=compute_1st_order_forward_difference,
         order=1,
-        x_slice=slice(None, -1),
         color="blue",
     ),
     Method(
         name=r"centered $O(h^2)$",
         compute_fn=compute_2nd_order_centered_difference,
         order=2,
-        x_slice=slice(1, -1),
         color="orange",
     ),
     Method(
         name=r"centered $O(h^4)$",
         compute_fn=compute_4th_order_centered_difference,
         order=4,
-        x_slice=slice(2, -2),
         color="green",
     ),
     Method(
         name=r"centered $O(h^6)$",
         compute_fn=compute_6th_order_centered_difference,
         order=6,
-        x_slice=slice(3, -3),
         color="red",
     ),
 ]
@@ -149,7 +157,7 @@ def compute_rms_error(
         y_values,
         cell_width=cell_width,
     )
-    dydx_exact = compute_dydx_exact(x_values[method.x_slice])
+    dydx_exact = compute_dydx_exact(x_values)
     rms_error = float(
         numpy.sqrt(
             numpy.mean((dydx_approx - dydx_exact)**2),
@@ -184,7 +192,7 @@ def plot_derivative_approx(
             cell_width=cell_width_approx,
         )
         ax.plot(
-            x_values_approx[method.x_slice],
+            x_values_approx,
             dydx_approx,
             marker="o",
             linestyle="none",
