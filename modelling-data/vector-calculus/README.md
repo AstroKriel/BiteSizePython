@@ -1,6 +1,6 @@
 # vector calculus
 
-Index notation is the most convenient language for analytic vector calculus. `numpy.einsum` brings this same language to computational vector calculus.
+Index notation is the most convenient language for analytic vector calculus. `numpy.einsum` brings this same language to computational vector calculus in Python.
 
 ## Depends on
 
@@ -26,14 +26,18 @@ The index i is summed over (Einstein convention). At each point in space, this t
 
 To evaluate the contraction, you first need all partial derivatives of all components: the gradient tensor `gradient_tensor[comp_index, dir_index]` = d(b_comp)/d(x_dir).
 
-`numpy.gradient` computes it one component at a time:
+We sample the domain with `endpoint=False`, so the grid is periodic: the cell after the last one wraps back to the first. This means the second-order centered difference stencil from the [finite-differences](../finite-differences/) lesson applies everywhere, including at the boundaries. `numpy.roll` implements the wrap:
 
 ```python
 for comp_index in range(num_comps):
-    field_gradients = numpy.gradient(unit_vector_field[comp_index], cell_width_x, cell_width_y)
-    for dir_index, field_gradient in enumerate(field_gradients):
-        gradient_tensor[comp_index, dir_index] = field_gradient
+    field = vector_field[comp_index]
+    gradient_tensor[comp_index, 0] = (numpy.roll(field, -1, axis=0) -
+                                      numpy.roll(field, 1, axis=0)) / (2.0 * cell_width_x)
+    gradient_tensor[comp_index, 1] = (numpy.roll(field, -1, axis=1) -
+                                      numpy.roll(field, 1, axis=1)) / (2.0 * cell_width_y)
 ```
+
+Each `roll(..., -1)` shifts the array one step forward; `roll(..., 1)` shifts it one step backward. Their difference divided by `2h` gives the centered derivative at every cell with uniform second-order accuracy.
 
 ---
 
@@ -57,9 +61,3 @@ field_curvature = numpy.einsum("ixy,jixy->jxy", unit_vector_field, gradient_tens
 The string reads as: sum over `i`, keep `j`, `x`, `y`. Each letter maps to an axis. Repeated indices that do not appear in the output are contracted (summed). The result has the same shape as `unit_vector_field`.
 
 See `before.py` and `after.py` for this in action.
-
----
-
-## A note on accuracy
-
-This is the naive approach. `numpy.gradient` drops to first-order accuracy at array boundaries, and periodic grids need boundary-aware stencils to stay second-order throughout. For production use, higher-order finite differences and proper boundary conditions improve accuracy considerably. The contraction itself is exact; the approximation lives entirely in how the gradient tensor is computed.

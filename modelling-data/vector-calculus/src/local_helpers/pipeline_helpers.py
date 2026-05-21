@@ -17,7 +17,6 @@ from local_helpers import field_helpers
 ## === CONSTANTS
 ##
 
-
 NUM_POINTS = 64
 X_MIN, X_MAX = -numpy.pi, numpy.pi
 Y_MIN, Y_MAX = -numpy.pi, numpy.pi

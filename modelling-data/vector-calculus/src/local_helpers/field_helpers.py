@@ -51,7 +51,9 @@ def compute_gradient_tensor(
         shape=(num_comps, num_comps, num_cells_x, num_cells_y),
     )
     for comp_index in range(num_comps):
-        field_gradients = numpy.gradient(vector_field[comp_index], cell_width_x, cell_width_y)
-        for dir_index, field_gradient in enumerate(field_gradients):
-            gradient_tensor[comp_index, dir_index] = field_gradient
+        field = vector_field[comp_index]
+        gradient_tensor[comp_index, 0] = (numpy.roll(field, -1, axis=0) -
+                                          numpy.roll(field, 1, axis=0)) / (2.0 * cell_width_x)
+        gradient_tensor[comp_index, 1] = (numpy.roll(field, -1, axis=1) -
+                                          numpy.roll(field, 1, axis=1)) / (2.0 * cell_width_y)
     return gradient_tensor
