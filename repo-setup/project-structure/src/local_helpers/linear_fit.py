@@ -64,5 +64,5 @@ class LineFit:
     def print_summary(
         self,
     ) -> None:
-        print(f"\t> slope: {self.slope:.4f} +/- {self.slope_sigma:.4f}")
-        print(f"\t> intercept: {self.intercept:.4f} +/- {self.intercept_sigma:.4f}")
+        print(f"\t> estimated slope: {self.slope:.4f} +/- {self.slope_sigma:.4f}")
+        print(f"\t> estimated intercept: {self.intercept:.4f} +/- {self.intercept_sigma:.4f}")

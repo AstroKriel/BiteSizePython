@@ -66,12 +66,7 @@ def compute_4th_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    numerator = (
-        -y_values[4:]
-        + 8.0 * y_values[3:-1]
-        - 8.0 * y_values[1:-3]
-        + y_values[:-4]
-    )
+    numerator = (-y_values[4:] + 8.0 * y_values[3:-1] - 8.0 * y_values[1:-3] + y_values[:-4])
     return numerator / (12.0 * cell_width)
 
 
@@ -81,12 +76,8 @@ def compute_6th_order_centered_difference(
     cell_width: float,
 ) -> NDArray:
     numerator = (
-        y_values[6:]
-        - 9.0 * y_values[5:-1]
-        + 45.0 * y_values[4:-2]
-        - 45.0 * y_values[2:-4]
-        + 9.0 * y_values[1:-5]
-        - y_values[:-6]
+        y_values[6:] - 9.0 * y_values[5:-1] + 45.0 * y_values[4:-2] - 45.0 * y_values[2:-4] +
+        9.0 * y_values[1:-5] - y_values[:-6]
     )
     return numerator / (60.0 * cell_width)
 
@@ -159,7 +150,7 @@ def compute_rms_error(
         cell_width=cell_width,
     )
     dydx_exact = compute_dydx_exact(x_values[method.x_slice])
-    rms_error = float(numpy.sqrt(numpy.mean((dydx_approx - dydx_exact) ** 2)))
+    rms_error = float(numpy.sqrt(numpy.mean((dydx_approx - dydx_exact)**2)))
     return cell_width, rms_error
 
 
@@ -226,7 +217,7 @@ def plot_convergence(
             color=method.color,
         )
         inv_dx_ref = numpy.array([inv_dx_arr[0], inv_dx_arr[-1]])
-        rms_errors_ref = rms_errors_arr[0] * (inv_dx_ref / inv_dx_ref[0]) ** (-method.order)
+        rms_errors_ref = rms_errors_arr[0] * (inv_dx_ref / inv_dx_ref[0])**(-method.order)
         ax.plot(
             inv_dx_ref,
             rms_errors_ref,
@@ -286,11 +277,7 @@ def main() -> None:
     plot_convergence(axes[1])
     fig.tight_layout()
     fig_path = FIGURES_DIR / "convergence.png"
-    fig.savefig(
-        fname=fig_path,
-        dpi=150,
-        bbox_inches="tight",
-    )
+    fig.savefig(fig_path)
     print(f"\t> saved: {fig_path}")
 
 

@@ -21,9 +21,9 @@ I am sure you have been here before. You start a new project, write your first s
 From inside this lesson folder, make a subfolder and copy the script into it:
 
 ```sh
-mkdir manual
-cp script.py manual/
-cd manual
+mkdir the-old-way
+cp script.py the-old-way/
+cd the-old-way
 ```
 
 Create a virtual environment:
@@ -50,37 +50,50 @@ Run the script:
 python3 script.py
 ```
 
-Deactivate the virtual environment when done:
-
-```sh
-deactivate
-```
-
-If you use notebooks, the environment must be active before you launch:
-
-```sh
-source .venv/bin/activate
-jupyter lab
-```
-
 ### Reproducibility
 
-To make this project reproducible, you need to capture your environment:
+To make this project reproducible, capture your environment before deactivating:
 
 ```sh
 pip freeze > requirements.txt
+deactivate
 ```
 
-Anyone starting fresh will need this file to recreate it:
+This file is not created or updated automatically. You need to remember to regenerate it every time you add or remove a package.
+
+To see reproducibility in action, delete the environment:
+
+```sh
+rm -rf .venv
+```
+
+Recreate it:
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install from the requirements file:
 
 ```sh
 pip install -r requirements.txt
 ```
 
-This file is not created or updated automatically. You need to remember to regenerate it every time you add or remove a package.
+Run the script:
+
+```sh
+python3 script.py
+```
+
+Deactivate when done:
+
+```sh
+deactivate
+```
 
 ```
-<project>/
+the-old-way/
 ├── script.py
 ├── requirements.txt
 └── .venv/
@@ -97,9 +110,9 @@ This file is not created or updated automatically. You need to remember to regen
 To see this in action, work through the same process, this time using `uv`. From inside this lesson folder, make a subfolder and copy the script into it:
 
 ```sh
-mkdir uv
-cp script.py uv/
-cd uv
+mkdir the-uv-way
+cp script.py the-uv-way/
+cd the-uv-way
 ```
 
 Initialise a uv project:
@@ -112,7 +125,12 @@ Try running. `uv` will tell you what is missing:
 
 ```sh
 uv run script.py
-# ModuleNotFoundError: No module named 'numpy'
+```
+
+Expected output:
+
+```
+ModuleNotFoundError: No module named 'numpy'
 ```
 
 Add the missing package and try again:
@@ -120,7 +138,12 @@ Add the missing package and try again:
 ```sh
 uv add numpy
 uv run script.py
-# ModuleNotFoundError: No module named 'scipy'
+```
+
+Expected output:
+
+```
+ModuleNotFoundError: No module named 'scipy'
 ```
 
 Repeat until it runs:
@@ -128,29 +151,29 @@ Repeat until it runs:
 ```sh
 uv add scipy
 uv run script.py
-# ModuleNotFoundError: No module named 'matplotlib'
-
-uv add matplotlib
-uv run script.py
-# it works
 ```
 
-At no point did you activate or deactivate an environment, or stop to work out which packages to install. `uv` built up the dependency list as you went; now anyone with `uv` can clone or copy the folder and be running immediately.
+Expected output:
 
-If you use notebooks, start your session the same way:
+```
+ModuleNotFoundError: No module named 'matplotlib'
+```
 
 ```sh
-uv run jupyter lab
+uv add matplotlib
+uv run script.py
 ```
 
-This drops you straight into the project environment. No need to manually activate your environment and then launch your server.
+It works!
+
+At no point did you activate or deactivate an environment, or stop to work out which packages to install. `uv` built up the dependency list as you went; now anyone with `uv` can clone or copy the folder and be running immediately.
 
 ### What uv created
 
 After `uv init` and a few `uv add`s, your folder now contains a handful of files worth knowing about.
 
 ```
-<project>/
+the-uv-way/
 ├── script.py
 ├── pyproject.toml
 ├── uv.lock
@@ -179,8 +202,9 @@ This is what a fresh start looks like: a colleague cloning your repo, or you on 
 ```sh
 uv sync
 uv run script.py
-# it works
 ```
+
+It works again!
 
 
 ## Going further
