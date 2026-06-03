@@ -54,6 +54,31 @@ The left panel of `figures/convergence.png` overlays each stencil's `dydx_approx
 
 ---
 
-## Connection to 3D fields
+## Extending to 3D fields
 
-Simulation grids are discretised fields. Taking a derivative along a grid axis is exactly the same operation: apply a stencil to the values at neighbouring grid points along that direction. The stencils, the convergence orders, and the accuracy tradeoffs are all identical. The only difference is that you have three axes to differentiate along instead of one.
+Simulation grids are often 3D discretised domains of various kinds of fields. Taking derivatives along any spatial axis is exactly the same operation as what we covered: apply a stencil to the values at neighbouring grid points along the desired spatial direction. The implementation extends just as directly. The only change is to pass an `axis` argument to `numpy.roll`, telling it which axis to shift along. That axis is exactly the direction you are differentiating. The 1D calls in `script.py` leave it unset (there is only one axis); for a 3D field you simply name the axis:
+
+```python
+## d/dx : shift along axis 0
+numpy.roll(
+    field,
+    shift=int(1 * FORWARD),
+    axis=0,
+)
+
+## d/dy : shift along axis 1
+numpy.roll(
+    field,
+    shift=int(1 * FORWARD),
+    axis=1,
+)
+
+## d/dz : shift along axis 2
+numpy.roll(
+    field,
+    shift=int(1 * FORWARD),
+    axis=2,
+)
+```
+
+Every stencil in this lesson works unchanged on a 3D array this way: pass `axis=k` to each `numpy.roll`, and the same expression returns the derivative along axis `k`.
