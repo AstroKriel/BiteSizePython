@@ -50,6 +50,8 @@ As you will see in the example `script.py`, each layer of neighbours cancels ano
 
 The payoff is easy to see in the convergence (right side) panel of `figures/convergence.png`: higher-order accurate methods can reach the same accuracy at far lower resolution than lower-order methods.
 
+The left panel of `figures/convergence.png` overlays each stencil's `dydx_approx` (coloured markers) on the exact derivative `dydx_exact` (black line) at a fixed, deliberately coarse resolution. Even with only a handful of points, the higher-order markers sit closer to the exact curve, while the first-order forward difference visibly lags.
+
 ---
 
 ## Connection to 3D fields
