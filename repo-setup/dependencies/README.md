@@ -103,7 +103,7 @@ the-old-way/
 
 ## The uv way
 
-`uv` does away with most of that boilerplate. In exchange for rooting your commands in `uv` (`uv run` instead of `python`, `uv add` instead of `pip install`) your Python environment is created and managed for you. In fact, you do not even need to know your dependencies upfront. Start the project and let `uv run` tell you what is missing.
+`uv` does away with most of that boilerplate. In exchange for rooting your commands in `uv` (`uv run` instead of `python`, `uv add` instead of `pip install`) your Python environment is created and managed for you.
 
 ### Setup
 
@@ -121,52 +121,35 @@ Initialise a uv project:
 uv init .
 ```
 
-Try running. `uv` will tell you what is missing:
+Add the dependencies:
 
 ```sh
-uv run script.py
+uv add numpy scipy matplotlib
 ```
 
 Expected output:
 
 ```
-ModuleNotFoundError: No module named 'numpy'
+Resolved 18 packages in 234ms
+Prepared 12 packages in 1.45s
+Installed 12 packages in 89ms
+ + matplotlib==3.10.0
+ + numpy==2.2.1
+ + scipy==1.15.0
+ ...
 ```
 
-Add the missing package and try again:
+Notice the timings, and compare them to how long `pip install` of the same three packages took. `uv` parallelises downloads and shares a global package cache across all your `uv` projects, so it is faster than `pip` on first install and near-instant on any subsequent install of a package you already have.
+
+Run the script:
 
 ```sh
-uv add numpy
 uv run script.py
 ```
 
-Expected output:
+It works! At no point did you create, activate, or deactivate an environment. `uv` set one up in the background and `uv run` used it automatically; now anyone with `uv` can clone or copy the folder and be running immediately.
 
-```
-ModuleNotFoundError: No module named 'scipy'
-```
-
-Repeat until it runs:
-
-```sh
-uv add scipy
-uv run script.py
-```
-
-Expected output:
-
-```
-ModuleNotFoundError: No module named 'matplotlib'
-```
-
-```sh
-uv add matplotlib
-uv run script.py
-```
-
-It works!
-
-At no point did you activate or deactivate an environment, or stop to work out which packages to install. `uv` built up the dependency list as you went; now anyone with `uv` can clone or copy the folder and be running immediately.
+> **Tip:** if you do not know which packages a script needs (for example, when migrating an existing script to `uv`), you can skip naming them upfront. Just `uv run script.py` and `uv` will report the first missing module; `uv add` it and repeat until the script runs.
 
 ### What uv created
 
