@@ -46,4 +46,4 @@ Then clone this repo and go into any lesson folder. Each one has its own `pyproj
 
 - [ ] **Thinking functional:** keep functions focused on one job and testing becomes trivial
 - [ ] **Type validation:** stop bad inputs at the door; clear errors every time
-- [ ] **Unit tests:** catch mistakes in your pipeline before they corrupt your results
+- [x] **Unit tests:** catch mistakes in your pipeline before they corrupt your results
