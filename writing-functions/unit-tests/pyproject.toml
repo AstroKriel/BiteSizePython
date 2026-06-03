@@ -1,0 +1,18 @@
+[project]
+name = "unit-tests"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.0",
+]
+
+## development-only dependencies (not part of the shipped code).
+## uv installs these by default; exclude them with `uv sync --no-dev`.
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]   # make src/ importable without installing the package
+testpaths = ["utests"] # where pytest looks for test files
