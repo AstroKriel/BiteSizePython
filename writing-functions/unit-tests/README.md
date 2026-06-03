@@ -1,6 +1,6 @@
 # unit tests
 
-A unit test is a small, fast check that pins one behaviour of one function. Run the whole suite after any change and a broken behaviour announces itself immediately, before the mistake flows downstream and corrupts a result you trusted.
+A unit test is a small, focused check that pins expected behaviour. Build a suite of them and you get a safety net: run your unit tests after any change and it confirms you have not broken anything. If something did break, you don't need to guess; the tests announce exactly which behaviour broke, letting you intercept the mistake before it flows downstream into your results.
 
 ## Depends on
 
@@ -11,7 +11,7 @@ A unit test is a small, fast check that pins one behaviour of one function. Run 
 
 ## The layout
 
-The code under test lives in `src/local_helpers/`, split into small modules:
+Unit tests go hand-in-hand with packages. A package gathers the reusable functions your scripts call, and those functions' behaviours are exactly what you want to pin: get them right once and every script that imports them inherits that guarantee. Here the package under test lives in `src/local_helpers/`, split into small modules:
 
 ```
 src/local_helpers/
@@ -20,7 +20,7 @@ src/local_helpers/
     validation.py   # input guards
 ```
 
-The tests live in `utests/`, mirroring that structure, one `test_<module>.py` per module:
+The tests live in `utests/`, with `test_<module>.py` per module:
 
 ```
 utests/
@@ -29,21 +29,55 @@ utests/
     test_validation.py
 ```
 
-You do not register these files anywhere. `pyproject.toml` points `pytest` at the folder, and it discovers every `test_*.py` for you:
+You do not need to register each file. You point `pyproject.toml` at the folder your tests live under, and `pytest` collects every file whose name matches the pattern `test_*.py` under the path you specified:
 
 ```toml
 [tool.pytest.ini_options]
 pythonpath = ["src"]   # make src/ importable without installing the package
-testpaths = ["utests"] # where pytest looks for test files
+testpaths = ["utests"] # point pytest to where your test files live
 ```
 
-`pytest` is listed as a development-only dependency, separate from the package's real dependencies: it is needed to *test* the code, not to *run* it. `uv` installs it for you anyway, so the whole interface is one command:
+`pytest` is itself a dependency, but only for *developing* the code, not running it, so it lives in a separate group rather than alongside the package's real dependencies. `uv` installs that group by default, so running the suite stays a single command:
 
 ```sh
 uv run pytest
 ```
 
 You should see every test pass.
+
+---
+
+## A note on test dependencies
+
+A few questions naturally surface here: why put `pytest` in its own group at all? When does that choice actually matter? Why did running the suite not need you to ask for it? Each is worth answering.
+
+### Why a separate group
+
+Two reasons, and only one is about size:
+
+- **Hygiene.** Test tools are not part of what your code *does*. Keeping them out of the real dependencies means anyone who later installs your package as a library never has `pytest` forced on them.
+- **Weight.** A development toolchain is usually far heavier than the code's runtime needs. Leaving it out gives a smaller, faster install wherever the code only has to *run*.
+
+For a purely local lesson like this one, the hygiene point is mostly intent: there is no consumer yet to protect. The weight point only bites once the group grows, which it does quickly in real projects.
+
+### `dev` is included by default
+
+`uv` treats the group named `dev` as its default and installs it automatically. So you never ask for the test tools; you ask to *avoid* them, with `--no-dev` for a lean, runtime-only install. (Any other group name flips this: `uv` skips it unless you opt in with `--group <name>`.) That default is why `uv run pytest` above just worked.
+
+The split pays off at the boundaries where the code is consumed rather than developed: a built package leaves the `dev` group out of its metadata entirely, and a production or CI install drops it with `uv sync --no-dev`.
+
+### When the group grows large
+
+A library's runtime might be a single package while its dev group balloons into whole toolchains:
+
+- **testing:** `pytest` and its plugins (`pytest-cov`, `hypothesis`, ...)
+- **lint and types:** `ruff`, `mypy`, `pre-commit`, `types-*` stubs
+- **docs:** `sphinx` or `mkdocs-material`, which pull in large trees
+- **notebooks:** `jupyter`, `ipython`, and their many sub-dependencies
+- **fixtures and mocks:** `faker`, `responses`, `testcontainers`
+- **build and release:** `build`, `twine`, `hatch`
+
+Docs and notebook stacks are the usual reason a dev group dwarfs the runtime: hundreds of megabytes the running code never touches. That is the point where `--no-dev` stops being tidy and starts saving real time on every CI run and container build.
 
 ---
 
