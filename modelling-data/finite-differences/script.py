@@ -52,7 +52,7 @@ def compute_1st_order_forward_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    y_values_shifted_f1 = numpy.roll(y_values, int(1 * FORWARD))
+    y_values_shifted_f1 = numpy.roll(y_values, shift=int(1 * FORWARD))
     dydx_approx = (y_values_shifted_f1 - y_values) / cell_width
     return dydx_approx
 
@@ -62,8 +62,8 @@ def compute_2nd_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    y_values_shifted_f1 = numpy.roll(y_values, int(1 * FORWARD))
-    y_values_shifted_b1 = numpy.roll(y_values, int(1 * BACKWARD))
+    y_values_shifted_f1 = numpy.roll(y_values, shift=int(1 * FORWARD))
+    y_values_shifted_b1 = numpy.roll(y_values, shift=int(1 * BACKWARD))
     dydx_approx = (
         y_values_shifted_f1 - y_values_shifted_b1
     ) / (2.0 * cell_width)
@@ -75,10 +75,10 @@ def compute_4th_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    y_values_shifted_f2 = numpy.roll(y_values, int(2 * FORWARD))
-    y_values_shifted_f1 = numpy.roll(y_values, int(1 * FORWARD))
-    y_values_shifted_b1 = numpy.roll(y_values, int(1 * BACKWARD))
-    y_values_shifted_b2 = numpy.roll(y_values, int(2 * BACKWARD))
+    y_values_shifted_f2 = numpy.roll(y_values, shift=int(2 * FORWARD))
+    y_values_shifted_f1 = numpy.roll(y_values, shift=int(1 * FORWARD))
+    y_values_shifted_b1 = numpy.roll(y_values, shift=int(1 * BACKWARD))
+    y_values_shifted_b2 = numpy.roll(y_values, shift=int(2 * BACKWARD))
     numerator = (
         -y_values_shifted_f2
         + 8.0 * y_values_shifted_f1
@@ -94,12 +94,12 @@ def compute_6th_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
-    y_values_shifted_f3 = numpy.roll(y_values, int(3 * FORWARD))
-    y_values_shifted_f2 = numpy.roll(y_values, int(2 * FORWARD))
-    y_values_shifted_f1 = numpy.roll(y_values, int(1 * FORWARD))
-    y_values_shifted_b1 = numpy.roll(y_values, int(1 * BACKWARD))
-    y_values_shifted_b2 = numpy.roll(y_values, int(2 * BACKWARD))
-    y_values_shifted_b3 = numpy.roll(y_values, int(3 * BACKWARD))
+    y_values_shifted_f3 = numpy.roll(y_values, shift=int(3 * FORWARD))
+    y_values_shifted_f2 = numpy.roll(y_values, shift=int(2 * FORWARD))
+    y_values_shifted_f1 = numpy.roll(y_values, shift=int(1 * FORWARD))
+    y_values_shifted_b1 = numpy.roll(y_values, shift=int(1 * BACKWARD))
+    y_values_shifted_b2 = numpy.roll(y_values, shift=int(2 * BACKWARD))
+    y_values_shifted_b3 = numpy.roll(y_values, shift=int(3 * BACKWARD))
     numerator = (
         y_values_shifted_f3
         - 9.0 * y_values_shifted_f2
