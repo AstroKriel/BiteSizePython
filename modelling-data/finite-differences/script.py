@@ -75,11 +75,15 @@ def compute_4th_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
+    y_values_shifted_f2 = numpy.roll(y_values, int(2 * FORWARD))
+    y_values_shifted_f1 = numpy.roll(y_values, int(1 * FORWARD))
+    y_values_shifted_b1 = numpy.roll(y_values, int(1 * BACKWARD))
+    y_values_shifted_b2 = numpy.roll(y_values, int(2 * BACKWARD))
     numerator = (
-        -numpy.roll(y_values, int(2 * FORWARD))
-        + 8.0 * numpy.roll(y_values, int(1 * FORWARD))
-        - 8.0 * numpy.roll(y_values, int(1 * BACKWARD))
-        + numpy.roll(y_values, int(2 * BACKWARD))
+        -y_values_shifted_f2
+        + 8.0 * y_values_shifted_f1
+        - 8.0 * y_values_shifted_b1
+        + y_values_shifted_b2
     )
     dydx_approx = numerator / (12.0 * cell_width)
     return dydx_approx
@@ -90,13 +94,19 @@ def compute_6th_order_centered_difference(
     *,
     cell_width: float,
 ) -> NDArray:
+    y_values_shifted_f3 = numpy.roll(y_values, int(3 * FORWARD))
+    y_values_shifted_f2 = numpy.roll(y_values, int(2 * FORWARD))
+    y_values_shifted_f1 = numpy.roll(y_values, int(1 * FORWARD))
+    y_values_shifted_b1 = numpy.roll(y_values, int(1 * BACKWARD))
+    y_values_shifted_b2 = numpy.roll(y_values, int(2 * BACKWARD))
+    y_values_shifted_b3 = numpy.roll(y_values, int(3 * BACKWARD))
     numerator = (
-        numpy.roll(y_values, int(3 * FORWARD))
-        - 9.0 * numpy.roll(y_values, int(2 * FORWARD))
-        + 45.0 * numpy.roll(y_values, int(1 * FORWARD))
-        - 45.0 * numpy.roll(y_values, int(1 * BACKWARD))
-        + 9.0 * numpy.roll(y_values, int(2 * BACKWARD))
-        - numpy.roll(y_values, int(3 * BACKWARD))
+        y_values_shifted_f3
+        - 9.0 * y_values_shifted_f2
+        + 45.0 * y_values_shifted_f1
+        - 45.0 * y_values_shifted_b1
+        + 9.0 * y_values_shifted_b2
+        - y_values_shifted_b3
     )
     dydx_approx = numerator / (60.0 * cell_width)
     return dydx_approx
