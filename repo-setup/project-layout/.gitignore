@@ -1,0 +1,10 @@
+## python
+.venv/
+__pycache__/
+
+## ignore generated outputs by default
+datasets/
+figures/*
+
+## track outputs intentionally (! tells gitignore to not ignore)
+!figures/output.png
