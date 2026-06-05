@@ -35,7 +35,7 @@ This folder is an example of this kind of layout.
 
 ## .gitignore
 
-Hide entire directories by default, then use `!` to negate specific files you want to keep. Note, `git` does not track empty directories, so `figures/` and `datasets/` will not be tracked until you store content under them.
+Ignore a directory's contents by default, then use `!` to negate specific files you want to keep. Write `figures/*` (the contents) rather than `figures/` (the directory): once git excludes a whole directory it never looks inside, so a later `!figures/output.png` can never re-include the file. Note, `git` does not track empty directories, so `figures/` and `datasets/` will not be tracked until you store content under them.
 
 ```
 ## python
@@ -44,10 +44,10 @@ __pycache__/  # stores compiled *.pyc Python bytecode
 
 ## ignore generated outputs by default
 datasets/
-figures/
+figures/*
 
 ## track outputs intentionally (! tells gitignore to not ignore)
-!figures/key_result.png
+!figures/output.png
 ```
 
 ---
