@@ -1,5 +1,3 @@
-## { U-TEST
-
 ##
 ## === DEPENDENCIES
 ##
@@ -99,5 +97,3 @@ class TestSafeLog10(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-## } U-TEST

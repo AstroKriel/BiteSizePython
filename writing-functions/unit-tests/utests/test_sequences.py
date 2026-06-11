@@ -1,5 +1,3 @@
-## { U-TEST
-
 ##
 ## === DEPENDENCIES
 ##
@@ -85,5 +83,3 @@ class TestRunningTotals(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-## } U-TEST
