@@ -15,6 +15,8 @@ from numpy.typing import NDArray
 def compute_stats(
     values: NDArray,
 ) -> tuple[float, float]:
+    if not isinstance(values, numpy.ndarray):
+        raise TypeError("`values` must be an NDArray.")
     if values.size == 0:
         raise ValueError("`values` must not be empty.")
     std_value = float(numpy.std(values))
@@ -33,6 +35,14 @@ def compute_standardised_values(
     mean_value: float,
     std_value: float,
 ) -> NDArray:
+    if not isinstance(values, numpy.ndarray):
+        raise TypeError("`values` must be an NDArray.")
+    if not isinstance(mean_value, (float, numpy.floating)):
+        raise TypeError("`mean_value` must be a float.")
+    if not isinstance(std_value, (float, numpy.floating)):
+        raise TypeError("`std_value` must be a float.")
+    if std_value == 0.0:
+        raise ValueError("`std_value` must not be zero.")
     return (values - mean_value) / std_value
 
 
