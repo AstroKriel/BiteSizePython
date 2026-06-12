@@ -92,7 +92,6 @@ Taking a field with itself gives its magnitude squared, `b_i b_i`, which is exac
 **Outer products** go the other way, building a tensor from two vectors, `a_i b_j`. A field combined with itself gives the tension (stress) dyad `b_i b_j`:
 
 ```python
-## no index is summed, so rank goes up: the output keeps both i and j
 tension_tensor = numpy.einsum("ixy,jxy->ijxy", vector_field, vector_field)
 ```
 

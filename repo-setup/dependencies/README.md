@@ -14,7 +14,7 @@ Here we will work with a `script.py` that depends on three third-party packages,
 
 ## The Old Way
 
-I am sure you have been here before. You start a new project, write your first script, and now face the task of needing to work through the boilerplate steps to initialise a Python environment; this requires you to remember which packages you need, which commands to install them, you then need to activate the environment in order to run the script, and then tear it down when you are done. To remind you what this looks like, work through the following, or skip to the next section to see the simpler solution `uv` offers.
+You have probably been here before. You start a new project, write your first script, and now face the task of needing to work through the boilerplate steps to initialise a Python environment; this requires you to remember which packages you need, which commands to install them, you then need to activate the environment in order to run the script, and then tear it down when you are done. To remind you what this looks like, work through the following, or skip to the next section to see the simpler solution `uv` offers.
 
 ### Setup
 

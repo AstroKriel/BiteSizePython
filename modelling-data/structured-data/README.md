@@ -37,7 +37,7 @@ In `after.py`, `LineFit.from_fit(data_series)` wraps the `curve_fit` call. Const
 
 `after.py` defines two dataclasses: `DataSeries` for the input data and `LineFit` for the result. Both use `frozen=True`, making them immutable: any accidental assignment raises a `FrozenInstanceError` immediately rather than silently corrupting downstream analysis.
 
-`DataSeries` makes use of the `__post_init__` routine that runs automnatically after construction (this method is empty by default). Overwrite it when there is a meaningful invariant to validate. For `LineFit` there is no such invariant to check, but there is for `DataSeries`: all data arrays must have the same length:
+`DataSeries` makes use of the `__post_init__` routine that runs automatically after construction (this method is empty by default). Overwrite it when there is a meaningful invariant to validate. For `LineFit` there is no such invariant to check, but there is for `DataSeries`: all data arrays must have the same length:
 
 ```python
 def __post_init__(self) -> None:

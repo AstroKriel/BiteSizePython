@@ -49,7 +49,7 @@ git add .
 git commit -m "update"
 ```
 
-A history of "update" commits tells you nothing. When something breaks, you have no map.
+A history of "update" commits tells you nothing; when something breaks, you have no map.
 
 Before staging, ask what changed. If the answer needs "and", split it into two commits. Stage specific files, not everything:
 
