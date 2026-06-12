@@ -17,10 +17,10 @@ def compute_stats(
 ) -> tuple[float, float]:
     if values.size == 0:
         raise ValueError("`values` must not be empty.")
-    std = float(numpy.std(values))
-    if std == 0.0:
+    std_value = float(numpy.std(values))
+    if std_value == 0.0:
         raise ValueError("`values` has zero standard deviation; cannot normalise.")
-    return float(numpy.mean(values)), std
+    return float(numpy.mean(values)), std_value
 
 
 ##
@@ -28,12 +28,12 @@ def compute_stats(
 ##
 
 
-def normalise(
+def compute_standardised_values(
     values: NDArray,
-    mean: float,
-    std: float,
+    mean_value: float,
+    std_value: float,
 ) -> NDArray:
-    return (values - mean) / std
+    return (values - mean_value) / std_value
 
 
 ##
@@ -43,9 +43,9 @@ def normalise(
 
 def main() -> None:
     data = numpy.array([2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0])
-    mean, std = compute_stats(data)
-    normalised = normalise(data, mean, std)
-    print(normalised)
+    mean_value, std_value = compute_stats(data)
+    standardised_values = compute_standardised_values(data, mean_value, std_value)
+    print(standardised_values)
 
 
 ##
