@@ -2,13 +2,13 @@
 
 A dataclass makes the structure of your data explicit: named fields, optional immutability, built-in validation, and methods that travel with the object.
 
-## Depends on
+## Depends On
 
 - [`dependencies`](../../repo-setup/dependencies/)
 
 ---
 
-## The problem
+## The Problem
 
 As projects grow, you make decisions early that you have to remember later. `scipy.curve_fit` is a good example of where this comes up; it returns the fitted parameters `popt` and covariance matrix `pcov` as plain positional arrays. Extracting useful values requires you to know the order of parameters in your model, which is easy to remember when you write it, but much harder many weeks later, and that friction adds up.
 
@@ -21,7 +21,7 @@ Every new reader has to look back at the model function to work it out. Tuples a
 
 ---
 
-## The fix
+## The Fix
 
 Wrap the result once, at the source, in a dataclass. Index arithmetic happens once, in one place. After that, every callsite uses names:
 
@@ -33,7 +33,7 @@ In `after.py`, `LineFit.from_fit(data_series)` wraps the `curve_fit` call. Const
 
 ---
 
-## Locking it in
+## Locking It In
 
 `after.py` defines two dataclasses: `DataSeries` for the input data and `LineFit` for the result. Both use `frozen=True`, making them immutable: any accidental assignment raises a `FrozenInstanceError` immediately rather than silently corrupting downstream analysis.
 
@@ -51,7 +51,7 @@ Once a `DataSeries` exists, it is guaranteed valid. `LineFit.from_fit` does not 
 
 ---
 
-## What travels with the data
+## What Travels with the Data
 
 A dataclass is a class designed to hold structured data. By default it gives you automatic construction from named fields and equality comparison between instances. On top of that, you can opt in to immutability with `frozen=True` and define a `__post_init__` hook to validate the data at construction time. Like with classes, you can attach methods to the dataclass, which will travel with the object wherever it goes:
 

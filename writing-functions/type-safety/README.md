@@ -1,14 +1,15 @@
 # type safety
 
-Annotations guide you as you write your code; guards prevent misbehaviour.
+Annotations guide you as you write your code; guards prevent misbehaviour; unit tests confirm the results.
 
-## Depends on
+## Depends On
 
 - [`dependencies`](../../repo-setup/dependencies/)
+- [`unit-tests`](../unit-tests/)
 
 ---
 
-## The problem
+## The Problem
 
 Python is a dynamically typed language, which leads to minimal friction when starting your projects and cheap cost of experimenting with implementing ideas. Compared to working with a statically typed language like C++, Fortran, or Rust, this means:
 
@@ -21,24 +22,11 @@ This same freedom can, however, become a burden as your project scales. Sometime
 - a `str` multiplied by an `int` is valid
 - a `tuple` subtracted from an `NDArray` can silently broadcast into a plausible but wrong shape
 
-In all of these cases, the code runs, there are (incorrect) results, but you remain none the wiser.
-
-The lesson here is not to annotate and guard everything from the start; that would defeat the point of dynamic typing. The right moment to introduce guardrails is when you want to solidify behaviour: once a function's interface is settled, or once you are relying on a pipeline to produce results you trust. Annotations and guards are how you lock in decisions you have already made.
-
-`normalise(data, stats, 1.0)` is a good example. It looks plausible: `stats` holds the statistics the function needs. What it needs specifically is a `float`; `stats` is a tuple. A compiler would refuse this. Python runs it, and when numpy eventually tries to subtract a tuple from an array, it raises a shape mismatch error with no mention of types.
-
-```python
-stats = compute_stats(data)
-normalised = normalise(data, stats, 1.0)  ## stats is a (mean, std) pair; the error says shapes don't match
-```
-
-Type mistakes are one failure mode. Value mistakes are another, and no compiler catches them. An array of identical values has a standard deviation of zero, and dividing by zero in numpy does not raise an exception; it returns `nan`. Your pipeline finishes; the results look like numbers.
-
-Both failure modes have an answer: annotations let a tool check types before your code runs; guards enforce value constraints when it does. This is what `before.py` and `after.py` show.
+In all of these cases, the code runs, and there are (incorrect) results, but you remain none the wiser. There are tools each at three different layers to help.
 
 ---
 
-## Annotations
+## Type Annotations
 
 A type annotation declares what a function accepts and returns. Pyright reads them without running the code and flags any call that violates the contract.
 
@@ -53,7 +41,14 @@ def normalise(
     return (values - mean) / std
 ```
 
-Now pyright knows `mean` must be a `float`. The call in `before.py` that passes a tuple is immediately flagged:
+Now pyright knows `mean` must be a `float`. This call from `before.py` looks plausible; `stats` holds the statistics the function needs, but as a `tuple`, not a `float`:
+
+```python
+stats = compute_stats(data)
+normalised = normalise(data, stats, 1.0)  ## stats is a (mean, std) pair
+```
+
+Pyright flags it immediately:
 
 ```
 error: Argument of type "tuple[float, float]" cannot be assigned to parameter "mean" of type "float"
@@ -83,7 +78,7 @@ Zero errors. The annotated pipeline satisfies its own contracts.
 
 ---
 
-## Guards
+## Runtime Guards
 
 Pyright cannot know what values an array contains at a specific callsite. An array of identical values has the right type; its zero standard deviation is only discoverable when the code runs. A guard checks the invariant at the function boundary and raises a clear error before anything can go wrong downstream.
 
@@ -103,7 +98,13 @@ A guard checks one condition and raises immediately. The error message names the
 
 ---
 
-## What each layer catches
+## Unit Tests
+
+A unit test confirms that a function returns the expected output for a given input. Write them for settled behaviour: the happy path, edge cases, and any guarantees the rest of your code relies on. They cannot catch a wrong type at the callsite or stop an invalid value from entering a function; that is the job of annotations and guards. See [`../unit-tests/`](../unit-tests/) for a full walkthrough.
+
+---
+
+## What Each Layer Catches
 
 | Mistake | Caught by |
 |---|---|

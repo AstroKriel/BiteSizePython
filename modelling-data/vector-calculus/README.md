@@ -2,7 +2,7 @@
 
 Index notation is the most convenient language for analytic vector calculus. `numpy.einsum` brings this same language to computational vector calculus in Python.
 
-## Depends on
+## Depends On
 
 - [`dependencies`](../../repo-setup/dependencies/)
 - [`project-layout`](../../repo-setup/project-layout/)
@@ -10,7 +10,7 @@ Index notation is the most convenient language for analytic vector calculus. `nu
 
 ---
 
-## The curvature vector
+## The Curvature Vector
 
 The directional derivative of a unit vector field b along itself gives the curvature vector:
 
@@ -22,7 +22,7 @@ The index i is summed over (Einstein convention). At each point in space, this t
 
 ---
 
-## The gradient tensor
+## The Gradient Tensor
 
 To evaluate the contraction, you first need all partial derivatives of all components: the gradient tensor `gradient_tensor[comp_index, dir_index]` = d(b_comp)/d(x_dir).
 
@@ -45,7 +45,7 @@ Each `roll(..., -1)` shifts the array one step forward; `roll(..., 1)` shifts it
 
 ---
 
-## The contraction
+## The Contraction
 
 With the gradient tensor in hand, the curvature is a sum over i at every grid point. For loops make this explicit:
 
@@ -68,7 +68,7 @@ See `before.py` and `after.py` for this in action.
 
 ---
 
-## More examples of `einsum` in action
+## More Examples of `einsum` in Action
 
 Curvature is just one contraction. Most vector-calculus operations are also index expressions, so the same `einsum` grammar can express them, whether they reduce, preserve, or raise the tensor-rank.
 

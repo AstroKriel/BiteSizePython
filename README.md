@@ -4,7 +4,7 @@ Short and simple Python demos.
 
 ---
 
-## Getting started
+## Getting Started
 
 Most lessons require [`uv`](https://docs.astral.sh/uv/). Install it once:
 

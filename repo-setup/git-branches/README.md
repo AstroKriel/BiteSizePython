@@ -2,13 +2,13 @@
 
 Keep your worklow on the `main` branch clean and runnable, and isolate large feature changes in a branch that can be integrated once they are ready.
 
-## Depends on
+## Depends On
 
 - [`git-basics`](../git-basics/)
 
 ---
 
-## Why branches
+## Why Branches
 
 `main` is your source of truth. Work that is not finished does not belong there. A branch lets you commit freely without touching `main`, and keeps it clean enough to review and merge one change at a time.
 
@@ -42,7 +42,7 @@ username/verb/short-description
 
 ---
 
-## Creating a branch
+## Creating a Branch
 
 Always branch from the latest `origin/main`, not wherever your local checkout happens to be.
 
@@ -64,7 +64,7 @@ git_helpers create-branch-from-default add/feature
 
 ---
 
-## Working on the branch
+## Working on the Branch
 
 Same commit discipline as on `main`. One logical change per commit, clear message.
 
@@ -76,7 +76,7 @@ git_helpers push
 
 ---
 
-## If main moves while you are working
+## If main Moves While You Are Working
 
 Do not rebase; merge instead. Rebase rewrites commits, which causes problems if anyone else has already pulled your branch.
 
@@ -97,7 +97,7 @@ git_helpers sync-branch
 
 ---
 
-## Opening a pull request
+## Opening a Pull Request
 
 When the branch is ready, go to GitHub. If you pushed recently, it will show a banner prompting you to open a PR. Otherwise, navigate to the branch and click "Compare & pull request".
 
@@ -105,7 +105,7 @@ The PR is where changes get reviewed before landing on `main`. Keep the title in
 
 ---
 
-## After the merge
+## After the Merge
 
 The branch has done its job. Leave stale branches around and they become clutter.
 

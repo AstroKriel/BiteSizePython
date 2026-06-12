@@ -4,7 +4,7 @@ A commit's a decision. Make it easy to understand six months from now.
 
 ---
 
-## Starting a repo
+## Starting a Repo
 
 ```sh
 git init -b main
@@ -38,7 +38,7 @@ The [git_helpers README](https://github.com/AstroKriel/GitHelpers) has the full 
 
 ---
 
-## What to commit
+## What to Commit
 
 A commit should capture one logical change: something you can describe in a single line and revert without breaking anything else.
 
@@ -61,7 +61,7 @@ git commit -m "..."       # commit
 
 ---
 
-## Writing the message
+## Writing the Message
 
 ```
 action(scope): details.
@@ -135,7 +135,7 @@ git_helpers show-recent-commits
 
 ---
 
-## Where this goes
+## Where This Goes
 
 This is the base of `git`. For a solo project, it's pretty much all you need.
 

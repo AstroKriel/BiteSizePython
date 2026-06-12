@@ -6,13 +6,13 @@ If you have not already, install `uv` by following the instructions in the [repo
 
 ---
 
-## The script
+## The Script
 
 Here we will work with a `script.py` that depends on three third-party packages, showing different workflows to get it working. For now, we need not worry about which packages this script uses; in fact, when using a package manager like `uv`, that is kind of the point.
 
 ---
 
-## The old way
+## The Old Way
 
 I am sure you have been here before. You start a new project, write your first script, and now face the task of needing to work through the boilerplate steps to initialise a Python environment; this requires you to remember which packages you need, which commands to install them, you then need to activate the environment in order to run the script, and then tear it down when you are done. To remind you what this looks like, work through the following, or skip to the next section to see the simpler solution `uv` offers.
 
@@ -101,7 +101,7 @@ the-old-way/
 
 ---
 
-## The uv way
+## The uv Way
 
 `uv` does away with most of that boilerplate. In exchange for rooting your commands in `uv` (`uv run` instead of `python`, `uv add` instead of `pip install`) your Python environment is created and managed for you.
 
@@ -151,7 +151,7 @@ It works! At no point did you create, activate, or deactivate an environment. `u
 
 > **Tip:** if you do not know which packages a script needs (for example, when migrating an existing script to `uv`), you can skip naming them upfront. Just `uv run script.py` and `uv` will report the first missing module; `uv add` it and repeat until the script runs.
 
-### What uv created
+### What uv Created
 
 After `uv init` and a few `uv add`s, your folder now contains a handful of files worth knowing about.
 
@@ -193,6 +193,6 @@ uv run script.py
 It works again!
 
 
-## Going further
+## Going Further
 
 The [uv docs](https://docs.astral.sh/uv/) provides a comprehensive overview of `uv` and the workflows it supports. It's worth a read! What we cover here is the basics, and useful core functionality, but `uv` can do a lot more.

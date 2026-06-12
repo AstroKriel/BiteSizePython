@@ -2,14 +2,14 @@
 
 A place for everything, and everything has a place.
 
-## Depends on
+## Depends On
 
 - [`dependencies`](../dependencies/)
 - [`structured-data`](../../modelling-data/structured-data/)
 
 ---
 
-## The layout
+## The Layout
 
 Separate what you run from what you reuse, and keep generated outputs out of the way.
 
@@ -73,7 +73,7 @@ In `src/`, every folder you want to be able to import from, needs its own `__ini
 
 ---
 
-## Import order in scripts
+## Import Order in Scripts
 
 The official Python style guide (`PEP 8`) requires imports to be grouped in the following order: standard library (stdlib) first, then third-party packages, and finally local packages. This keeps dependencies visible. Within each import block, sort packages alphabetically. None of this is enforced, but it's a good rule to follow.
 

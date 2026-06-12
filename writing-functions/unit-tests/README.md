@@ -2,14 +2,14 @@
 
 A unit test is a small, focused check that pins expected behaviour. Build a suite of them and you get a safety net: run your unit tests after any change and it confirms you have not broken anything. If something did break, you don't need to guess; the tests announce exactly which behaviour broke, letting you intercept the mistake before it flows downstream into your results.
 
-## Depends on
+## Depends On
 
 - [`dependencies`](../../repo-setup/dependencies/)
 - [`project-layout`](../../repo-setup/project-layout/)
 
 ---
 
-## The layout
+## The Layout
 
 Unit tests go hand-in-hand with packages. A package gathers the reusable functions your scripts call, and those functions' behaviours are exactly what you want to pin: get them right once and every script that imports them inherits that guarantee. Here the package under test lives in `src/local_helpers/`, split into small modules:
 
@@ -47,11 +47,11 @@ You should see every test pass.
 
 ---
 
-## A note on test dependencies
+## A Note on Test Dependencies
 
 A few questions naturally surface here: why put `pytest` in its own group at all? When does that choice actually matter? Why did running the suite not need you to ask for it? Each is worth answering.
 
-### Why a separate group
+### Why a Separate Group
 
 Two reasons, and only one is about size:
 
@@ -60,13 +60,13 @@ Two reasons, and only one is about size:
 
 For a purely local lesson like this one, the hygiene point is mostly intent: there is no consumer yet to protect. The weight point only bites once the group grows, which it does quickly in real projects.
 
-### `dev` is included by default
+### `dev` Is Included by Default
 
 `uv` treats the group named `dev` as its default and installs it automatically. So you never ask for the test tools; you ask to *avoid* them, with `--no-dev` for a lean, runtime-only install. (Any other group name flips this: `uv` skips it unless you opt in with `--group <name>`.) That default is why `uv run pytest` above just worked.
 
 The split pays off at the boundaries where the code is consumed rather than developed: a built package leaves the `dev` group out of its metadata entirely, and a production or CI install drops it with `uv sync --no-dev`.
 
-### When the group grows large
+### When the Group Grows Large
 
 A library's runtime might be a single package while its dev group balloons into whole toolchains:
 
@@ -81,7 +81,7 @@ Docs and notebook stacks are the usual reason a dev group dwarfs the runtime: hu
 
 ---
 
-## Anatomy of a test
+## Anatomy of a Test
 
 Each test is a method on a `unittest.TestCase` class. The method name says what behaviour it checks, and the body follows the same three beats every time: build the input, call the function, assert on the result.
 
@@ -104,7 +104,7 @@ A test class groups the checks for one function; a test method is one behaviour.
 
 ---
 
-## Different checks for different abilities
+## Different Checks for Different Abilities
 
 Each module is paired with the kind of assertion that fits what it does. Reach for the one that matches the ability you are pinning:
 
@@ -114,7 +114,7 @@ Each module is paired with the kind of assertion that fits what it does. Reach f
 
 ---
 
-## Try breaking something
+## Try Breaking Something
 
 The fastest way to see what each assertion guards is to break the thing it guards:
 
@@ -127,6 +127,6 @@ Repeat with the others: drop the `raise` in `require_positive` and `test_zero_ra
 
 ---
 
-## Unit tests vs validation tests
+## Unit Tests vs Validation Tests
 
 Unit tests are fast and deterministic: a fixed input has a single known answer. Some properties do not fit that mould, such as "does this method converge at the expected rate?", where the answer is a trend across resolutions rather than a single value. Those belong in a separate *validation* test; the convergence check in the [`finite-differences`](../../modelling-data/finite-differences/) lesson is exactly that kind of test.

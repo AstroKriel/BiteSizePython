@@ -2,14 +2,14 @@
 
 The derivative of a discretised field at a point is constructed by looking at how nearby samples compare. The more of the neighbouring field you use, the better the approximation.
 
-## Depends on
+## Depends On
 
 - [`dependencies`](../../repo-setup/dependencies/)
 - [`structured-data`](../structured-data/)
 
 ---
 
-## The minimal approximation
+## The Minimal Approximation
 
 The simplest approach uses just two points: the value at the point and its right neighbour:
 
@@ -21,7 +21,7 @@ This is first-order accurate: the error scales as O(dx). It only knows which dir
 
 ---
 
-## Bringing in more of the neighbourhood
+## Bringing in More of the Neighbourhood
 
 By averaging both a forward and backwards derivative (both of which are first order accurate), we can construct a second order centered difference:
 
@@ -54,7 +54,7 @@ The left panel of `figures/convergence.png` overlays each stencil's `dydx_approx
 
 ---
 
-## Extending to 3D fields
+## Extending to 3D Fields
 
 Simulation grids are often 3D discretised domains of various kinds of fields. Taking derivatives along any spatial axis is exactly the same operation as what we covered: apply a stencil to the values at neighbouring grid points along the desired spatial direction. The implementation extends just as directly. The only change is to pass an `axis` argument to `numpy.roll`, telling it which axis to shift along. That axis is exactly the direction you are differentiating. The 1D calls in `script.py` leave it unset (there is only one axis); for a 3D field you simply name the axis:
 
