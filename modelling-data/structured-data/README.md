@@ -21,7 +21,7 @@ Every new reader has to look back at the model function to work it out. Tuples a
 
 ---
 
-## The Fix
+## The Solution
 
 Wrap the result once, at the source, in a dataclass. Index arithmetic happens once, in one place. After that, every callsite uses names:
 
@@ -51,9 +51,9 @@ Once a `DataSeries` exists, it is guaranteed valid. `LineFit.from_fit` does not 
 
 ---
 
-## What Travels with the Data
+## What You Get
 
-A dataclass is a class designed to hold structured data. By default it gives you automatic construction from named fields and equality comparison between instances. On top of that, you can opt in to immutability with `frozen=True` and define a `__post_init__` hook to validate the data at construction time. Like with classes, you can attach methods to the dataclass, which will travel with the object wherever it goes:
+Once the dataclass is in place, you can attach methods that travel with the object wherever it is passed:
 
 ```python
 result = LineFit.from_fit(data_series=data_series)
@@ -61,5 +61,7 @@ result.print_summary()
 result.evaluate_at(x_values)
 result.rms_residual
 ```
+
+A dataclass is a class designed to hold structured data. By default it gives you named-field construction and equality comparison between instances. On top of that, you can opt in to immutability with `frozen=True` and define a `__post_init__` hook to validate the data at construction time. Methods work exactly as they do on a regular class: attached to the definition, available on every instance.
 
 See `before.py` and `after.py` for this in action.
