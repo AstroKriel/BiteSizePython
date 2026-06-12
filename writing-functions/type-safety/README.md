@@ -10,12 +10,18 @@ Annotations guide you as you write your code; guards prevent misbehaviour.
 
 ## The problem
 
-Python is a dynamically typed language, with the promise of getting your project off the ground with minimal friction. Compared to working with a statically typed language like C++, Fortran, or Rust, this means:
+Python is a dynamically typed language, which leads to minimal friction when starting your projects and cheap cost of experimenting with implementing ideas. Compared to working with a statically typed language like C++, Fortran, or Rust, this means:
 
 - you do not declare variable types (in fact they can change in their lifetime), and there is no compilation step to enforce their type; the interpreter runs your code without checking
 - functions work on any input that supports the required operations, regardless of its type
 
-This same freedom can, however, become a burden as your project scales. Type mismatches sometimes crash your code with an error that points nowhere near the real cause. More dangerous are the cases where nothing crashes at all: Python's flexibility means that passing the wrong type often produces a result rather than an error. A `bool` added to an integer is valid. A string multiplied by a number is valid. A tuple subtracted from a numpy array may broadcast into a plausible-looking but wrong shape. The code runs, the results look like numbers, and you are none the wiser.
+This same freedom can, however, become a burden as your project scales. Sometimes it shows up as a crash: a type mismatch can produce an error that points nowhere near the real cause. More dangerous are the cases where nothing crashes at all, and Python runs your code to completion with wrong results. For example:
+
+- a `bool` added to an `int` is valid
+- a `str` multiplied by an `int` is valid
+- a `tuple` subtracted from an `NDArray` can silently broadcast into a plausible but wrong shape
+
+In all of these cases, the code runs, there are (incorrect) results, but you remain none the wiser.
 
 The lesson here is not to annotate and guard everything from the start; that would defeat the point of dynamic typing. The right moment to introduce guardrails is when you want to solidify behaviour: once a function's interface is settled, or once you are relying on a pipeline to produce results you trust. Annotations and guards are how you lock in decisions you have already made.
 
