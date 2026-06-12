@@ -1,6 +1,6 @@
 # git
 
-A commit's a decision. Make it easy to understand six months from now.
+A commit is a decision; make it easy to understand six months from now.
 
 ---
 

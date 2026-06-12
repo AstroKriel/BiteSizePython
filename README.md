@@ -45,5 +45,5 @@ Then clone this repo and go into any lesson folder. Each one has its own `pyproj
 ### Writing Better Functions
 
 - [ ] **Thinking functional:** keep functions focused on one job and testing becomes trivial
-- [ ] **Type validation:** stop bad inputs at the door; clear errors every time
+- [x] **[Type safety](writing-functions/type-safety/README.md):** type annotations, runtime guards, and unit tests; stop mistakes before they become wrong results
 - [x] **[Unit tests](writing-functions/unit-tests/README.md):** catch mistakes in your pipeline before they corrupt your results

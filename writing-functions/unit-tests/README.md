@@ -1,6 +1,6 @@
 # unit tests
 
-A unit test is a small, focused check that pins expected behaviour. Build a suite of them and you get a safety net: run your unit tests after any change and it confirms you have not broken anything. If something did break, you don't need to guess; the tests announce exactly which behaviour broke, letting you intercept the mistake before it flows downstream into your results.
+Unit tests pin expected behaviour and announce exactly what broke, letting you intercept mistakes before they corrupt your results.
 
 ## Depends On
 

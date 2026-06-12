@@ -1,6 +1,6 @@
 # finite differences
 
-The derivative of a discretised field at a point is constructed by looking at how nearby samples compare. The more of the neighbouring field you use, the better the approximation.
+The more neighbouring samples you include in a stencil, the more accurate your numerical derivative.
 
 ## Depends On
 

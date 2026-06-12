@@ -1,6 +1,6 @@
 # vector calculus
 
-Index notation is the most convenient language for analytic vector calculus. `numpy.einsum` brings this same language to computational vector calculus in Python.
+`numpy.einsum` brings index notation to computational vector calculus in Python.
 
 ## Depends On
 
