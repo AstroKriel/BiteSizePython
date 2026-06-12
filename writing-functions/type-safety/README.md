@@ -10,13 +10,25 @@ Annotations guide you as you write your code; guards prevent misbehaviour.
 
 ## The problem
 
-`before.py` is a normalisation pipeline: `compute_stats` returns the mean and standard deviation of an array; `normalise` shifts and scales the values. Two mistakes are hiding in it.
+Python is a dynamically typed language, with the promise of getting your project off the ground with minimal friction. Compared to working with a statically typed language like C++, Fortran, or Rust, this means:
 
-The first is in how `main` calls `normalise`. `compute_stats` returns a `tuple[float, float]`, but the call passes the whole tuple as the `mean` argument. Without annotations, nothing flags this at edit time. At runtime, numpy tries to subtract a 2-element tuple from an 8-element array and raises a shape error. The message says nothing about types; you are left to work backwards from a broadcasting failure to a wrong argument three lines earlier.
+- you do not declare variable types (in fact they can change in their lifetime), and there is no compilation step to enforce their type; the interpreter runs your code without checking
+- functions work on any input that supports the required operations, regardless of its type
 
-The second is in the data. When all input values are equal, `numpy.std` returns `0.0`, and `normalise` divides by it. No exception is raised; the result is `nan`. Your pipeline finishes without complaint.
+This same freedom can, however, become a burden as your project scales. Type mismatches sometimes crash your code with an error that points nowhere near the real cause. More dangerous are the cases where nothing crashes at all: Python's flexibility means that passing the wrong type often produces a result rather than an error. A `bool` added to an integer is valid. A string multiplied by a number is valid. A tuple subtracted from a numpy array may broadcast into a plausible-looking but wrong shape. The code runs, the results look like numbers, and you are none the wiser.
 
-These two mistakes are different in kind. The first is a type error: the wrong kind of value was passed. The second is a domain error: the right kind of value was passed, but its content violated an invariant the function depends on. Each needs a different fix.
+The lesson here is not to annotate and guard everything from the start; that would defeat the point of dynamic typing. The right moment to introduce guardrails is when you want to solidify behaviour: once a function's interface is settled, or once you are relying on a pipeline to produce results you trust. Annotations and guards are how you lock in decisions you have already made.
+
+`normalise(data, stats, 1.0)` is a good example. It looks plausible: `stats` holds the statistics the function needs. What it needs specifically is a `float`; `stats` is a tuple. A compiler would refuse this. Python runs it, and when numpy eventually tries to subtract a tuple from an array, it raises a shape mismatch error with no mention of types.
+
+```python
+stats = compute_stats(data)
+normalised = normalise(data, stats, 1.0)  ## stats is a (mean, std) pair; the error says shapes don't match
+```
+
+Type mistakes are one failure mode. Value mistakes are another, and no compiler catches them. An array of identical values has a standard deviation of zero, and dividing by zero in numpy does not raise an exception; it returns `nan`. Your pipeline finishes; the results look like numbers.
+
+Both failure modes have an answer: annotations let a tool check types before your code runs; guards enforce value constraints when it does. This is what `before.py` and `after.py` show.
 
 ---
 
