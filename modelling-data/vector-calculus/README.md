@@ -10,6 +10,12 @@
 
 ---
 
+## The Problem
+
+Vector-calculus operations on a field require summing over repeated indices at every grid point. The loops are unambiguous but grow unwieldy: each new operation adds another layer of nesting, and the code increasingly obscures the underlying index expression. `numpy.einsum` writes the same contraction as a string that mirrors index notation directly, leaving the operation readable in the code.
+
+---
+
 ## The Curvature Vector
 
 The directional derivative of a unit vector field b along itself gives the curvature vector:
