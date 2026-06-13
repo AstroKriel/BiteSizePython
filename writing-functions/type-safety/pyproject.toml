@@ -10,9 +10,14 @@ dependencies = [
 ## uv installs these by default; exclude them with `uv sync --no-dev`.
 [dependency-groups]
 dev = [
-    "pyright>=1.1",
+    "basedpyright>=1.0",
 ]
 
-[tool.pyright]
+[tool.basedpyright]
 pythonVersion = "3.12"
 typeCheckingMode = "standard"
+reportExplicitAny = "none"
+reportAny = "none"
+reportImplicitStringConcatenation = "none"
+reportImplicitOverride = "none"
+reportUnusedCallResult = "none"
