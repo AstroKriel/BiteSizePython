@@ -45,15 +45,11 @@ Then clone this repo and go into any lesson folder. Each one has its own `pyproj
 - [ ] **Thinking functional:** keep functions focused on one job and testing becomes trivial
 - [x] **[Type safety](writing-functions/type-safety/README.md):** type annotations, runtime guards, and unit tests; stop mistakes before they become wrong results
 - [x] **[Unit tests](writing-functions/unit-tests/README.md):** catch mistakes in your pipeline before they corrupt your results
-- [ ] **Errors versus assertions:** when to raise an exception and when to assert; what each signals to the caller
-- [ ] **Pylance static analysis:** which checks to enable and when to suppress a rule; making static analysis work for you
-- [ ] **`str` Enum:** type-safe constrained options instead of raw strings; natural follow-on to type annotations
 - [ ] **Pipeline classes:** when functions share persistent state, a class is the natural container; the methods become the pipeline steps
-- [ ] **Abstract base classes:** enforce a consistent interface across multiple pipeline classes; catch missing implementations before they cause errors
 
 ---
 
 ### Working Remotely
 
-- [ ] **SSH:** how it works, key-based authentication, and config-file shortcuts
-- [ ] **Slurm and PBS:** job submission, job arrays, job dependencies, and routing output and error streams
+- [ ] **SSH:** what key-based authentication is and how to use it
+- [ ] **Slurm and PBS:** job submission and routing output and error streams
